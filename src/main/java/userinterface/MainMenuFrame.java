@@ -62,7 +62,7 @@ public class MainMenuFrame extends JFrame {
             buttonPanel.add(historyBtn);
             buttonPanel.add(menuMgmtBtn);
             buttonPanel.add(logoutBtn);
-            // Wire menu management (placeholder for now)
+            // Wire menu management
             menuMgmtBtn.addActionListener(e ->
                 JOptionPane.showMessageDialog(this, "Menu Management — coming soon!"));
         } else {
@@ -72,7 +72,7 @@ public class MainMenuFrame extends JFrame {
             buttonPanel.add(logoutBtn);
         }
 
-        // ── Wire buttons (placeholders for now) ──
+        // ── Wire buttons ──
         newOrderBtn.addActionListener(e ->
             JOptionPane.showMessageDialog(this, "Ordering screen — coming soon!"));
         orderListBtn.addActionListener(e ->
