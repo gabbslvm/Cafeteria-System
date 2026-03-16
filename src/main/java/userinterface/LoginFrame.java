@@ -30,18 +30,18 @@ public class LoginFrame extends JFrame {
 
         // ── Main panel ──
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(new Color(26, 60, 110)); // dark blue
+        mainPanel.setBackground(new Color(30, 30, 30)); // dark blue
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
         // ── Title label ──
         JLabel titleLabel = new JLabel(AppConstants.APP_TITLE, SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        titleLabel.setForeground(Color.WHITE);
+        titleLabel.setForeground(new Color(245, 196, 0));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 
         // ── Form panel ──
         JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(Color.WHITE);
+        formPanel.setBackground(new Color(245, 245, 245));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -67,8 +67,8 @@ public class LoginFrame extends JFrame {
         gbc.gridx = 0; gbc.gridy = 2; gbc.gridwidth = 2;
         gbc.insets = new Insets(14, 6, 4, 6);
         JButton loginButton = new JButton("Log In");
-        loginButton.setBackground(new Color(46, 109, 180));
-        loginButton.setForeground(Color.WHITE);
+        loginButton.setBackground(new Color(245, 196, 0));
+        loginButton.setForeground(new Color(30, 30, 30));
         loginButton.setFont(new Font("Arial", Font.BOLD, 13));
         loginButton.setFocusPainted(false);
         loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -92,6 +92,8 @@ public class LoginFrame extends JFrame {
 
         // Allow pressing Enter to log in
         getRootPane().setDefaultButton(loginButton);
+
+        formPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(245, 196, 0), 2), BorderFactory.createEmptyBorder(20, 20, 20, 20)));
     }
 
     private void handleLogin() {
