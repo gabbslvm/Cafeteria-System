@@ -22,7 +22,6 @@ public class MainMenuFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // ── Main panel ──
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBackground(new Color(30, 30, 30));
 
@@ -48,12 +47,11 @@ public class MainMenuFrame extends JFrame {
         buttonPanel.setBackground(new Color(30, 30, 30));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 60, 30, 60));
 
-        JButton newOrderBtn  = createMenuButton("🛒  New Order",       new Color(245, 196, 0));
-        JButton orderListBtn = createMenuButton("📋  Order List",      new Color(245, 196, 0));
+        JButton newOrderBtn  = createMenuButton("🛒  New Order",           new Color(245, 196, 0));
+        JButton orderListBtn = createMenuButton("📋  Order List",          new Color(245, 196, 0));
         JButton historyBtn   = createMenuButton("📊  Transaction History", new Color(245, 196, 0));
-        JButton logoutBtn    = createMenuButton("🔓  Log Out",         new Color(180, 60, 60));
+        JButton logoutBtn    = createMenuButton("🔓  Log Out",             new Color(180, 60, 60));
 
-        // Manager-only: Menu Management button
         if ("manager".equalsIgnoreCase(currentStaff.getRole())) {
             JButton menuMgmtBtn = createMenuButton("⚙️  Menu Management", new Color(245, 196, 0));
             buttonPanel.setLayout(new GridLayout(5, 1, 10, 10));
@@ -62,7 +60,6 @@ public class MainMenuFrame extends JFrame {
             buttonPanel.add(historyBtn);
             buttonPanel.add(menuMgmtBtn);
             buttonPanel.add(logoutBtn);
-            // Wire menu management (placeholder for now)
             menuMgmtBtn.addActionListener(e ->
                 JOptionPane.showMessageDialog(this, "Menu Management — coming soon!"));
         } else {
@@ -72,13 +69,15 @@ public class MainMenuFrame extends JFrame {
             buttonPanel.add(logoutBtn);
         }
 
-        // ── Wire buttons (placeholders for now) ──
+        // ── Wire buttons ──
         newOrderBtn.addActionListener(e ->
-            JOptionPane.showMessageDialog(this, "Ordering screen — coming soon!"));
+                new OrderingFrame(currentStaff).setVisible(true));
+
         orderListBtn.addActionListener(e ->
-            JOptionPane.showMessageDialog(this, "Order List screen — coming soon!"));
+                new OrderList(currentStaff).setVisible(true));
+
         historyBtn.addActionListener(e ->
-            JOptionPane.showMessageDialog(this, "Transaction History — coming soon!"));
+                new TransacHistory(currentStaff).setVisible(true));
 
         logoutBtn.addActionListener(e -> {
             int confirm = JOptionPane.showConfirmDialog(this,
@@ -89,7 +88,6 @@ public class MainMenuFrame extends JFrame {
             }
         });
 
-        // ── Assemble ──
         mainPanel.add(headerPanel,  BorderLayout.NORTH);
         mainPanel.add(buttonPanel,  BorderLayout.CENTER);
         add(mainPanel);
