@@ -1,101 +1,90 @@
 # T.I.P. Smart Cafeteria: Ordering & Billing System
 
-A Java desktop application for managing cafeteria orders and billing, built with Java Swing (JFrame), Maven, and MySQL via XAMPP.
+A desktop application designed to streamline cafeteria operations, featuring automated ordering and billing functionality.
 
-> **Group:** JAVAngers — Technological Institute of the Philippines  
-> **Course:** Computer Programming 2
+## Overview
 
----
-
-## Features
-
-- **Staff Login** — Secure authentication for cafeteria staff
-- **Menu Management** — Add, update, and remove menu items
-- **Order Placing** — Browse the menu and build customer orders
-- **Payment Processing** — Calculate totals and handle payments
-- **Receipt Generation** — Print or display order receipts
-- **Order History** — View past transactions
-- **Queue Number System** — Auto-generated queue numbers per order
-
----
+Smart-Cafeteria is a Java-based desktop application that modernizes cafeteria management through an intuitive ordering system and automated billing process. Built with JFrame GUI and MySQL database integration, it provides a complete solution for cafeteria operations.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Language | Java 21 |
-| UI | Java Swing (JFrame) |
-| Database | MySQL (via XAMPP) |
-| Build Tool | Maven |
-| Connector | MySQL Connector/J 8.0.33 |
+- **Language:** Java
+- **GUI Framework:** JFrame (Swing)
+- **Build Tool:** Maven
+- **Database:** MySQL
+- **Local Server:** XAMPP
+- **Architecture:** Object-Oriented Programming (OOP)
 
----
+## Key Features
+
+- **User-friendly ordering interface** - Intuitive JFrame-based GUI for smooth ordering experience
+- **Automated billing system** - Real-time calculation and receipt generation
+- **Menu management** - Dynamic product catalog with pricing
+- **Transaction tracking** - Complete order history and reporting
+- **Database integration** - MySQL backend for persistent data storage
+- **Inventory monitoring** - Track product availability
 
 ## Project Structure
 
 ```
-src/main/java/
-├── main.java                  # Entry point
-├── model/                     # Data models (MenuItem, Order, Staff, etc.)
-├── database/                  # DAO classes (DB queries per model)
-├── service/                   # Business logic (Menu, Order, Payment)
-├── userinterface/             # Swing frames (Login, Ordering, Payment, etc.)
-└── util/                      # Helpers (DBConnection, ReceiptPrinter, etc.)
+Smart-Cafeteria/
+├── src/
+│   ├── main/
+│   │   └── java/
+│   └── resources/
+├── pom.xml
+└── README.md
 ```
 
----
-
-## Setup & Installation
+## Getting Started
 
 ### Prerequisites
-- Java 21+
+- Java JDK 8 or higher
 - Maven
-- XAMPP (MySQL running on port `3306`)
+- XAMPP (for MySQL)
+- MySQL Connector/J
 
-### Steps
+### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone -b Project_Dev https://github.com/gabbslvm/Smart-Cafeteria.git
-   cd Smart-Cafeteria
-   ```
+1. Clone the repository
+```bash
+git clone https://github.com/gabbslvm/Smart-Cafeteria.git
+cd Smart-Cafeteria
+```
 
-2. **Start XAMPP** and make sure MySQL is running.
+2. Start XAMPP and run MySQL service
 
-3. **Create the database**  
-   Open phpMyAdmin or MySQL CLI and create a database named:
-   ```sql
-   CREATE DATABASE tip_cafeteria;
-   ```
+3. Import the database schema
+```sql
+-- Import the provided SQL file to create necessary tables
+```
 
-4. **Build the project**
-   ```bash
-   mvn clean install
-   ```
+4. Configure database connection in the project
 
-5. **Run the application**
-   ```bash
-   mvn exec:java -Dexec.mainClass="main"
-   ```
-   Or run `main.java` directly from your IDE (Eclipse / IntelliJ).
+5. Build with Maven
+```bash
+mvn clean install
+```
 
----
+6. Run the application
+```bash
+mvn exec:java
+```
 
-## Database Configuration
+## Purpose
 
-Default connection settings in `DBConnection.java`:
+Developed as the final project for Computer Programming 2 (Java) course, this system demonstrates:
+- Full-stack desktop application development
+- Database design and integration
+- OOP principles and design patterns
+- GUI development with Swing/JFrame
+- Maven project management
 
-| Setting | Value |
-|---------|-------|
-| Host | `localhost:3306` |
-| Database | `tip_cafeteria` |
-| Username | `root` |
-| Password | *(empty — XAMPP default)* |
+## Development Team
 
-If your XAMPP setup uses a different password, update `DB_PASS` in `src/main/java/util/DBConnection.java`.
+**Team JAVAngers**
+- Project developed for academic requirements
 
----
+## Note
 
-## License
-
-For academic use only — Technological Institute of the Philippines.
+This is an academic project created for Computer Programming 2 course.
