@@ -1,4 +1,4 @@
-# ☕ T.I.P. Smart Cafeteria: Ordering & Billing System
+# T.I.P. Smart Cafeteria: Ordering & Billing System
 
 A Java desktop application for managing cafeteria orders and billing, built with Java Swing (JFrame), Maven, and MySQL via XAMPP.
 
