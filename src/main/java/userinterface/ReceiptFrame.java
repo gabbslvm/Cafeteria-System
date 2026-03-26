@@ -73,7 +73,7 @@ public class ReceiptFrame extends JDialog {
                 : "—";
         p.add(receiptRow("Date",     dateStr));
         p.add(receiptRow("Queue #",  order.getQueueNumber()));
-        p.add(receiptRow("Order ID", String.valueOf(order.getOrderId())));
+        p.add(receiptRow("Order ID", order.getDisplayId()));
         p.add(receiptRow("Cashier",  staff.getFullName()));
         p.add(Box.createVerticalStrut(6));
         p.add(divider());

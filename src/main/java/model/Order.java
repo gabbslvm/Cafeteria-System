@@ -15,6 +15,7 @@ public class Order {
     private String status;
     private int staffId;
     private Timestamp orderDate;
+    private String displayId;
 
     // Constructor
     public Order(int staffId, List<OrderItem> orderItems) {
@@ -76,6 +77,11 @@ public class Order {
         return orderDate;
     }
 
+    public String getDisplayId() {
+        return displayId;
+    }
+    
+
     public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
@@ -121,6 +127,11 @@ public class Order {
 
     public void setChange(double change) {
         this.change = change;
+    }
+    
+
+    public void setDisplayId(String displayId) {
+        this.displayId = displayId;
     }
 
     public String toString() {

@@ -13,14 +13,14 @@ import java.util.List;
 
 public class TransacHistory extends JFrame {
 
-    private static final Color BG_DARK   = new Color(30, 30, 30);
+    private static final Color BG_DARK = new Color(30, 30, 30);
     private static final Color BG_DARKER = new Color(20, 20, 20);
-    private static final Color BG_PANEL  = new Color(40, 40, 40);
-    private static final Color ACCENT    = new Color(245, 196, 0);
+    private static final Color BG_PANEL = new Color(40, 40, 40);
+    private static final Color ACCENT = new Color(245, 196, 0);
     private static final Color TEXT_MAIN = new Color(240, 240, 240);
-    private static final Color TEXT_MUTED= new Color(150, 150, 150);
-    private static final Color RED_BTN   = new Color(180, 60, 60);
-    private static final Color ORANGE    = new Color(230, 140, 30);
+    private static final Color TEXT_MUTED = new Color(150, 150, 150);
+    private static final Color RED_BTN = new Color(180, 60, 60);
+    private static final Color ORANGE = new Color(230, 140, 30);
 
     private final Staff currentStaff;
     private DefaultTableModel tableModel;
@@ -41,13 +41,12 @@ public class TransacHistory extends JFrame {
 
         JPanel root = new JPanel(new BorderLayout());
         root.setBackground(BG_DARK);
-        root.add(header(),  BorderLayout.NORTH);
+        root.add(header(), BorderLayout.NORTH);
         root.add(content(), BorderLayout.CENTER);
-        root.add(footer(),  BorderLayout.SOUTH);
+        root.add(footer(), BorderLayout.SOUTH);
         add(root);
     }
 
-    // ── Header ──
     private JPanel header() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(BG_DARKER);
@@ -57,7 +56,6 @@ public class TransacHistory extends JFrame {
         title.setFont(new Font("Arial", Font.BOLD, 17));
         title.setForeground(ACCENT);
 
-        // Date filter row
         JPanel filterRow = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
         filterRow.setBackground(BG_DARKER);
 
@@ -98,20 +96,21 @@ public class TransacHistory extends JFrame {
         filterRow.add(filterBtn);
         filterRow.add(allBtn);
 
-        p.add(title,     BorderLayout.NORTH);
+        p.add(title, BorderLayout.NORTH);
         p.add(filterRow, BorderLayout.SOUTH);
         return p;
     }
 
-    // ── Content ──
     private JPanel content() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(BG_DARK);
         p.setBorder(BorderFactory.createEmptyBorder(12, 12, 8, 12));
 
-        String[] cols = {"Order ID", "Queue", "Date", "Total", "Discount", "Final", "Paid", "Change", "Status"};
+        String[] cols = { "Order ID", "Queue", "Date", "Total", "Discount", "Final", "Paid", "Change", "Status" };
         tableModel = new DefaultTableModel(cols, 0) {
-            public boolean isCellEditable(int r, int c) { return false; }
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
 
         JTable table = new JTable(tableModel);
@@ -137,7 +136,6 @@ public class TransacHistory extends JFrame {
         t.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
     }
 
-    // ── Footer ──
     private JPanel footer() {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 14, 8));
         p.setBackground(BG_DARKER);
@@ -149,12 +147,15 @@ public class TransacHistory extends JFrame {
         back.setFocusPainted(false);
         back.setCursor(new Cursor(Cursor.HAND_CURSOR));
         back.setBorder(BorderFactory.createEmptyBorder(7, 14, 7, 14));
-        back.addActionListener(e -> dispose());
+        // ── FIXED: reopen MainMenuFrame so only one window is open ──
+        back.addActionListener(e -> {
+            new MainMenuFrame(currentStaff).setVisible(true);
+            dispose();
+        });
         p.add(back);
         return p;
     }
 
-    // ── Data loading ──
     private void loadAll() {
         populate(orderDB.getAllOrders());
     }
@@ -167,9 +168,8 @@ public class TransacHistory extends JFrame {
         tableModel.setRowCount(0);
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm");
         for (Order o : list) {
-            tableModel.addRow(new Object[]{
-                    o.getOrderId(),
-                    o.getQueueNumber(),
+            tableModel.addRow(new Object[] {
+                    o.getOrderId(), o.getQueueNumber(),
                     o.getOrderDate() != null ? sdf.format(o.getOrderDate()) : "—",
                     "₱ " + String.format("%.2f", o.getTotalAmount()),
                     "₱ " + String.format("%.2f", o.getDiscountAmount()),
@@ -181,19 +181,17 @@ public class TransacHistory extends JFrame {
         }
     }
 
-    // ── Status color renderer ──
     private class StatusRenderer extends DefaultTableCellRenderer {
-        public Component getTableCellRendererComponent(
-                JTable t, Object v, boolean sel, boolean foc, int r, int c) {
+        public Component getTableCellRendererComponent(JTable t, Object v, boolean sel, boolean foc, int r, int c) {
             super.getTableCellRendererComponent(t, v, sel, foc, r, c);
             setBackground(BG_PANEL);
             setHorizontalAlignment(CENTER);
             String s = v != null ? v.toString() : "";
             switch (s.toLowerCase()) {
-                case "done"    -> setForeground(new Color(100, 200, 100));
-                case "voided"  -> setForeground(RED_BTN);
+                case "done" -> setForeground(new Color(100, 200, 100));
+                case "voided" -> setForeground(RED_BTN);
                 case "pending" -> setForeground(ORANGE);
-                default        -> setForeground(TEXT_MAIN);
+                default -> setForeground(TEXT_MAIN);
             }
             return this;
         }
