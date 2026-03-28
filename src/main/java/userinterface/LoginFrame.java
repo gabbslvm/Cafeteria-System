@@ -141,10 +141,10 @@ class MainMenuFrame extends JFrame {
         buttonPanel.setBackground(new Color(30, 30, 30));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 60, 30, 60));
 
-        JButton newOrderBtn = createMenuButton("🛒  New Order", new Color(245, 196, 0));
-        JButton orderListBtn = createMenuButton("📋  Order List", new Color(245, 196, 0));
-        JButton historyBtn = createMenuButton("📊  Transaction History", new Color(245, 196, 0));
-        JButton logoutBtn = createMenuButton("🔓  Log Out", new Color(180, 60, 60));
+        JButton newOrderBtn = createMenuButton("New Order", new Color(245, 196, 0));
+        JButton orderListBtn = createMenuButton("Order List", new Color(245, 196, 0));
+        JButton historyBtn = createMenuButton("Transaction History", new Color(245, 196, 0));
+        JButton logoutBtn = createMenuButton("Log Out", new Color(180, 60, 60));
 
         if ("manager".equalsIgnoreCase(currentStaff.getRole())) {
             JButton menuMgmtBtn = createMenuButton("⚙️  Menu Management", new Color(245, 196, 0));
