@@ -16,8 +16,8 @@ public class Order {
     private int staffId;
     private Timestamp orderDate;
     private String displayId;
+    private int itemCount;
 
-    // Constructor
     public Order(int staffId, List<OrderItem> orderItems) {
         this.staffId = staffId;
         this.orderItems = orderItems;
@@ -80,7 +80,13 @@ public class Order {
     public String getDisplayId() {
         return displayId;
     }
-    
+
+    public int getItemCount() {
+        if (orderItems != null && !orderItems.isEmpty()) {
+            return orderItems.size();
+        }
+        return itemCount;
+    }
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
@@ -128,10 +134,13 @@ public class Order {
     public void setChange(double change) {
         this.change = change;
     }
-    
 
     public void setDisplayId(String displayId) {
         this.displayId = displayId;
+    }
+
+    public void setItemCount(int itemCount) {
+        this.itemCount = itemCount;
     }
 
     public String toString() {
