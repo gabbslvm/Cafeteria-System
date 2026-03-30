@@ -380,7 +380,6 @@ class MainMenuFrame extends JFrame {
         content.setBackground(BG_CONTENT);
         content.add(buildTopBar(),    BorderLayout.NORTH);
         content.add(buildHero(),      BorderLayout.CENTER);
-        content.add(buildStatStrip(), BorderLayout.SOUTH);
         return content;
     }
 
@@ -526,16 +525,6 @@ class MainMenuFrame extends JFrame {
         return btn;
     }
 
-    // Bottom stat strip — 3 tiles
-    private JPanel buildStatStrip() {
-        JPanel strip = new JPanel(new GridLayout(1, 3, 1, 0));
-        strip.setBackground(new Color(12, 12, 12));
-        strip.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, DIVIDER));
-        strip.add(statTile("Today's Orders", "—",        "No data yet", false));
-        strip.add(statTile("Pending Orders", "—",        "No data yet", false));
-        strip.add(statTile("System Status",  "● Online", "",            true));
-        return strip;
-    }
 
     private JPanel statTile(String label, String value, String sub, boolean accent) {
         JPanel tile = new JPanel();

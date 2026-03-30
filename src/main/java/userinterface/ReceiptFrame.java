@@ -12,11 +12,11 @@ import java.text.SimpleDateFormat;
 
 public class ReceiptFrame extends JDialog {
 
-    private static final Color BG       = new Color(252, 252, 248);
-    private static final Color DIVIDER  = new Color(200, 200, 200);
-    private static final Color DARK     = new Color(30, 30, 30);
-    private static final Color MUTED    = new Color(100, 100, 100);
-    private static final Color ACCENT   = new Color(180, 130, 0);
+    private static final Color BG = new Color(252, 252, 248);
+    private static final Color DIVIDER = new Color(200, 200, 200);
+    private static final Color DARK = new Color(30, 30, 30);
+    private static final Color MUTED = new Color(100, 100, 100);
+    private static final Color ACCENT = new Color(180, 130, 0);
 
     private boolean goToMainMenu = false;
     private final Order order;
@@ -29,7 +29,9 @@ public class ReceiptFrame extends JDialog {
         initUI();
     }
 
-    public boolean isGoToMainMenu() { return goToMainMenu; }
+    public boolean isGoToMainMenu() {
+        return goToMainMenu;
+    }
 
     private void initUI() {
         setSize(420, 620);
@@ -71,10 +73,21 @@ public class ReceiptFrame extends JDialog {
         String dateStr = order.getOrderDate() != null
                 ? new SimpleDateFormat("MMM dd, yyyy  hh:mm a").format(order.getOrderDate())
                 : "—";
-        p.add(receiptRow("Date",     dateStr));
-        p.add(receiptRow("Queue #",  order.getQueueNumber()));
-        p.add(receiptRow("Order ID", order.getDisplayId()));
-        p.add(receiptRow("Cashier",  staff.getFullName()));
+        p.add(receiptRow("Date", dateStr));
+        // Parse queue_number field — stored as "YYMM-NNN" (e.g. "2603-003")
+        String qNum = order.getQueueNumber();
+        String queueDisp;
+        String orderIdDisp;
+        if (qNum != null && qNum.length() >= 8 && Character.isDigit(qNum.charAt(0))) {
+            queueDisp = "Q-" + qNum.substring(5); // "Q-003"
+            orderIdDisp = qNum; // "2603-003"
+        } else {
+            queueDisp = qNum; // fallback for old format
+            orderIdDisp = String.valueOf(order.getOrderId());
+        }
+        p.add(receiptRow("Queue #", queueDisp));
+        p.add(receiptRow("Order ID", orderIdDisp));
+        p.add(receiptRow("Cashier", staff.getFullName()));
         p.add(Box.createVerticalStrut(6));
         p.add(divider());
 
@@ -90,7 +103,7 @@ public class ReceiptFrame extends JDialog {
             for (OrderItem oi : order.getOrderItems()) {
                 String itemLine = String.format("%-18s x%d",
                         truncate(oi.getMenuItem().getName(), 18), oi.getQuantity());
-                String subLine  = "₱ " + String.format("%.2f", oi.getSubtotal());
+                String subLine = "₱ " + String.format("%.2f", oi.getSubtotal());
                 p.add(receiptItemRow(itemLine, subLine));
             }
         } else {
@@ -105,7 +118,7 @@ public class ReceiptFrame extends JDialog {
         p.add(divider());
 
         // Totals
-        p.add(receiptRow("Subtotal",  "₱ " + String.format("%.2f", order.getTotalAmount())));
+        p.add(receiptRow("Subtotal", "₱ " + String.format("%.2f", order.getTotalAmount())));
         if (order.getDiscountAmount() > 0) {
             p.add(receiptRow("Discount (20%)", "- ₱ " + String.format("%.2f", order.getDiscountAmount())));
         }
@@ -120,7 +133,7 @@ public class ReceiptFrame extends JDialog {
         p.add(finalRow);
         p.add(Box.createVerticalStrut(4));
         p.add(receiptRow("Amount Paid", "₱ " + String.format("%.2f", order.getAmountPaid())));
-        p.add(receiptRow("Change",      "₱ " + String.format("%.2f", order.getChange())));
+        p.add(receiptRow("Change", "₱ " + String.format("%.2f", order.getChange())));
         p.add(Box.createVerticalStrut(8));
         p.add(divider());
 
@@ -147,7 +160,7 @@ public class ReceiptFrame extends JDialog {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, 14, 12));
         p.setBackground(new Color(245, 245, 240));
 
-        JButton mainMenuBtn = new JButton("🏠  Back to Main Menu");
+        JButton mainMenuBtn = new JButton("Back to Main Menu");
         mainMenuBtn.setBackground(new Color(245, 196, 0));
         mainMenuBtn.setForeground(DARK);
         mainMenuBtn.setFont(new Font("Arial", Font.BOLD, 13));
@@ -159,7 +172,7 @@ public class ReceiptFrame extends JDialog {
             dispose();
         });
 
-        JButton closeBtn = new JButton("✕  Close");
+        JButton closeBtn = new JButton("Close");
         closeBtn.setBackground(new Color(100, 100, 100));
         closeBtn.setForeground(Color.WHITE);
         closeBtn.setFont(new Font("Arial", Font.BOLD, 13));
