@@ -169,17 +169,29 @@ public class OrderingFrame extends JFrame {
         JLabel name = new JLabel("<html><body style='width:120px'>" + mi.getName() + "</body></html>");
         name.setFont(new Font("Arial", Font.BOLD, 13));
         name.setForeground(TEXT_MAIN);
+
         JLabel cat = new JLabel(mi.getCategory());
         cat.setFont(new Font("Arial", Font.PLAIN, 11));
         cat.setForeground(TEXT_MUTED);
+
         JLabel price = new JLabel("₱ " + String.format("%.2f", mi.getPrice()));
         price.setFont(new Font("Arial", Font.BOLD, 14));
         price.setForeground(ACCENT);
+        
+        JLabel stockLabel = new JLabel("Stock: " + mi.getStock());
+        stockLabel.setFont(new Font("Arial", Font.PLAIN, 11));
+        stockLabel.setForeground(mi.getStock() <=6
+                ? new Color(220, 80, 80)
+                : new Color(100, 200, 100)
+            );
+    
         JPanel info = new JPanel(new GridLayout(3, 1, 2, 2));
         info.setOpaque(false);
         info.add(name);
         info.add(cat);
         info.add(price);
+        info.add(stockLabel);
+
         JButton add = new JButton("+ Add");
         add.setBackground(ACCENT);
         add.setForeground(BG_DARKER);
@@ -188,6 +200,7 @@ public class OrderingFrame extends JFrame {
         add.setCursor(new Cursor(Cursor.HAND_CURSOR));
         add.setBorder(BorderFactory.createEmptyBorder(7, 0, 7, 0));
         add.addActionListener(e -> addToCart(mi));
+        
         card.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
                 card.setBackground(new Color(50, 50, 50));
@@ -525,6 +538,10 @@ public class OrderingFrame extends JFrame {
             return;
         }
         order.setOrderId(orderId);
+        MenuItemDB menuItemDB = new MenuItemDB();
+            for(OrderItem oi : cart) {
+                menuItemDB.deductStock(oi.getMenuItem().getMenuItemId(), oi.getQuantity());
+            }
         new OrderList(currentStaff).setVisible(true);
         dispose();
     }

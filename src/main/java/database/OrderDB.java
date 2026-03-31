@@ -180,7 +180,8 @@ public class OrderDB {
                             itemsRs.getString("name"),
                             itemsRs.getString("category"),
                             itemsRs.getDouble("price"),
-                            itemsRs.getBoolean("is_available"));
+                            itemsRs.getBoolean("is_available"),
+                            itemsRs.getInt("stock"));
                     orderItems.add(new OrderItem(menuItem, itemsRs.getInt("quantity")));
                 }
 

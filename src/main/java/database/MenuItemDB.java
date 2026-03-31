@@ -21,12 +21,12 @@ public class MenuItemDB {
 
             while (rs.next()) {
                 MenuItem item = new MenuItem(
-                    rs.getInt("item_id"),
-                    rs.getString("name"),
-                    rs.getString("category"),
-                    rs.getDouble("price"),
-                    rs.getBoolean("is_available")
-                );
+                        rs.getInt("item_id"),
+                        rs.getString("name"),
+                        rs.getString("category"),
+                        rs.getDouble("price"),
+                        rs.getBoolean("is_available"),
+                        rs.getInt("stock"));
                 items.add(item);
             }
         } catch (SQLException e) {
@@ -47,12 +47,12 @@ public class MenuItemDB {
 
             while (rs.next()) {
                 MenuItem item = new MenuItem(
-                    rs.getInt("item_id"),
-                    rs.getString("name"),
-                    rs.getString("category"),
-                    rs.getDouble("price"),
-                    rs.getBoolean("is_available")
-                );
+                        rs.getInt("item_id"),
+                        rs.getString("name"),
+                        rs.getString("category"),
+                        rs.getDouble("price"),
+                        rs.getBoolean("is_available"),
+                        rs.getInt("stock"));
                 items.add(item);
             }
         } catch (SQLException e) {
@@ -73,6 +73,7 @@ public class MenuItemDB {
             stmt.setString(2, item.getCategory());
             stmt.setDouble(3, item.getPrice());
             stmt.setBoolean(4, item.isAvailable());
+            stmt.setInt(5, item.getStock());
 
             stmt.executeUpdate();
             System.out.println("Menu item added successfully.");
@@ -92,7 +93,8 @@ public class MenuItemDB {
             stmt.setString(2, item.getCategory());
             stmt.setDouble(3, item.getPrice());
             stmt.setBoolean(4, item.isAvailable());
-            stmt.setInt(5, item.getMenuItemId());
+            stmt.setInt(5, item.getStock());
+            stmt.setInt(6, item.getMenuItemId());
 
             stmt.executeUpdate();
             System.out.println("Menu item updated successfully.");
@@ -113,6 +115,21 @@ public class MenuItemDB {
             System.out.println("Menu item deleted successfully.");
         } catch (SQLException e) {
             System.out.println("Error deleting item: " + e.getMessage());
+        }
+    }
+
+    public void deductStock(int itemId, int quantity) {
+        String sql = "UPDATE menu_items SET stock = stock - ? WHERE item_id = ? AND stock >= ?";
+        try {
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, quantity);
+            stmt.setInt(2, itemId);
+            stmt.setInt(3, quantity); // safety: only deduct if enough stock exists
+            stmt.executeUpdate();
+            System.out.println("Stock deducted for item ID: " + itemId);
+        } catch (SQLException e) {
+            System.out.println("Error deducting stock: " + e.getMessage());
         }
     }
 }

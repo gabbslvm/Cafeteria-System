@@ -7,14 +7,16 @@ public class MenuItem {
     private double price;
     private String category;
     private boolean isAvailable;
+    private int stock;
 
     // Constructor
-    public MenuItem(int menuItemId, String name, String category, double price, boolean isAvailable) {
+    public MenuItem(int menuItemId, String name, String category, double price, boolean isAvailable, int stock) {
         this.menuItemId = menuItemId;
         this.name = name;
         this.category = category;
         this.price = price;
         this.isAvailable = isAvailable;
+        this.stock = stock;
     }
 
     // Getters
@@ -38,6 +40,10 @@ public class MenuItem {
         return isAvailable;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
     // Setters
     public void setMenuItemId(int id) {
         this.menuItemId = id;
@@ -57,6 +63,10 @@ public class MenuItem {
 
     public void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public String toString() {
