@@ -52,7 +52,7 @@ public class TransacHistory extends JFrame {
         p.setBackground(BG_DARKER);
         p.setBorder(BorderFactory.createEmptyBorder(14, 20, 14, 20));
 
-        JLabel title = new JLabel("📊  Transaction History");
+        JLabel title = new JLabel("Transaction History");
         title.setFont(new Font("Arial", Font.BOLD, 17));
         title.setForeground(ACCENT);
 
