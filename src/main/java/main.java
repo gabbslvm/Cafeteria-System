@@ -1,12 +1,11 @@
 
-import userinterface.LoginFrame;
+import userinterface.MainFrame;
 import javax.swing.SwingUtilities;
 
 public class main {
     public static void main(String[] args) {
-        // Run the UI on the Event Dispatch Thread (good Swing practice)
         SwingUtilities.invokeLater(() -> {
-            LoginFrame login = new LoginFrame();
+            MainFrame login = new MainFrame();
             login.setVisible(true);
         });
     }

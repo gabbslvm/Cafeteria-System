@@ -19,7 +19,7 @@ public class DBConnection {
             if (connection == null || connection.isClosed()) {
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-                System.out.println("Connected to SAMP database.");
+                System.out.println("Connected to XAMPP database.");
             }
         } catch (ClassNotFoundException e) {
             System.out.println("MySQL Driver not found: " + e.getMessage());
