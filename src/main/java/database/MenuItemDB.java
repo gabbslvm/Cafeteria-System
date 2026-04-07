@@ -125,7 +125,7 @@ public class MenuItemDB {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, quantity);
             stmt.setInt(2, itemId);
-            stmt.setInt(3, quantity); // safety: only deduct if enough stock exists
+            stmt.setInt(3, quantity);
             stmt.executeUpdate();
             System.out.println("Stock deducted for item ID: " + itemId);
         } catch (SQLException e) {

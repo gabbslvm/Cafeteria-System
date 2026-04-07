@@ -147,7 +147,6 @@ public class TransacHistory extends JFrame {
         back.setFocusPainted(false);
         back.setCursor(new Cursor(Cursor.HAND_CURSOR));
         back.setBorder(BorderFactory.createEmptyBorder(7, 14, 7, 14));
-        // ── FIXED: reopen MainMenuFrame so only one window is open ──
         back.addActionListener(e -> {
             new MainMenuFrame(currentStaff).setVisible(true);
             dispose();

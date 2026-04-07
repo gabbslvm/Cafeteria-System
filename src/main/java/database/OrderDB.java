@@ -83,7 +83,7 @@ public class OrderDB {
                 order.setChange(rs.getDouble("change_amount"));
                 order.setStatus(rs.getString("status"));
                 order.setOrderDate(rs.getTimestamp("order_date"));
-                order.setItemCount(rs.getInt("item_count")); // ← NEW
+                order.setItemCount(rs.getInt("item_count"));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -118,7 +118,7 @@ public class OrderDB {
                 order.setChange(rs.getDouble("change_amount"));
                 order.setStatus(rs.getString("status"));
                 order.setOrderDate(rs.getTimestamp("order_date"));
-                order.setItemCount(rs.getInt("item_count")); // ← NEW
+                order.setItemCount(rs.getInt("item_count"));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -185,7 +185,7 @@ public class OrderDB {
                     orderItems.add(new OrderItem(menuItem, itemsRs.getInt("quantity")));
                 }
 
-                order.setOrderItems(orderItems); // also populates size via getItemCount()
+                order.setOrderItems(orderItems);
                 return order;
             }
 

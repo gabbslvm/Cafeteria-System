@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StaffDB {
-
-    // Returns a Staff object if login is valid, or null if credentials are wrong
     public Staff authenticate(String username, String password) {
         String sql = "SELECT * FROM staff WHERE username = ? AND password = ?";
 
@@ -25,7 +23,6 @@ public class StaffDB {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                // Login success — build and return a Staff object
                 return new Staff(
                     rs.getInt("staff_id"),
                     rs.getString("username"),
@@ -39,7 +36,7 @@ public class StaffDB {
             System.out.println("Login error: " + e.getMessage());
         }
 
-        return null; // Login failed
+        return null;
     }
 
     public List<Staff> getAllStaff() {

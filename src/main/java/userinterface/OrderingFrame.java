@@ -228,7 +228,7 @@ public class OrderingFrame extends JFrame {
         String[] cols = { "Item", "Price", "Qty", "Subtotal", "Remove items" };
         cartModel = new DefaultTableModel(cols, 0) {
             public boolean isCellEditable(int r, int c) {
-                return c == 2 || c == 4; // Qty and Remove button are editable
+                return c == 2 || c == 4;
             }
         };
         JTable table = new JTable(cartModel);
@@ -425,7 +425,6 @@ public class OrderingFrame extends JFrame {
         }
         OrderItem oi = new OrderItem(mi, 1);
         cart.add(oi);
-        // ── "−" added as the 5th column value ──
         cartModel.addRow(new Object[] {
                 mi.getName(),
                 "₱ " + String.format("%.2f", mi.getPrice()),
@@ -464,7 +463,6 @@ public class OrderingFrame extends JFrame {
                 options[0]);
 
         if (choice == 0) {
-            // Remove 1 quantity — if only 1 left, remove item entirely
             if (currentQty <= 1) {
                 removeRow(row);
             } else {
@@ -553,7 +551,6 @@ public class OrderingFrame extends JFrame {
         return l;
     }
 
-    // ── MinusBtn styling helper ──
     private void styleMinusBtn(JButton b) {
         b.setText("−");
         b.setBackground(RED_BTN);
@@ -564,7 +561,6 @@ public class OrderingFrame extends JFrame {
         b.setToolTipText("Click to reduce quantity or remove item from cart");
     }
 
-    // ── MinusBtnRenderer — renders the − button in each cart row ──
     private class MinusBtnRenderer extends JButton implements TableCellRenderer {
         MinusBtnRenderer() {
             setOpaque(true);
@@ -577,7 +573,6 @@ public class OrderingFrame extends JFrame {
         }
     }
 
-    // ── MinusBtnEditor — handles click and fires decrementOrRemove dialog ──
     private class MinusBtnEditor extends AbstractCellEditor implements TableCellEditor {
         private final JButton btn = new JButton();
         private int editRow;
@@ -602,9 +597,6 @@ public class OrderingFrame extends JFrame {
     }
 }
 
-// ══════════════════════════════════════════════════════════════════════
-// ORDER LIST
-// ══════════════════════════════════════════════════════════════════════
 class OrderList extends JFrame {
 
     private static final Color BG_DARK = new Color(30, 30, 30), BG_DARKER = new Color(20, 20, 20),

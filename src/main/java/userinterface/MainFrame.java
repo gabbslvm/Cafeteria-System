@@ -13,9 +13,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-// ══════════════════════════════════════════════════════════════════════════════
-//  LOGIN FRAME
-// ══════════════════════════════════════════════════════════════════════════════
 public class MainFrame extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -118,9 +115,6 @@ public class MainFrame extends JFrame {
     }
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// MAIN MENU FRAME
-// ══════════════════════════════════════════════════════════════════════════════
 class MainMenuFrame extends JFrame {
 
     private static final Color BG_SIDEBAR = new Color(10, 10, 10);
@@ -140,19 +134,9 @@ class MainMenuFrame extends JFrame {
 
     private static final int SIDEBAR_W = 280;
     private static final int NAV_H = 56;
-    private static final int LOGO_SIZE = 240; // ── enlarged logo area
+    private static final int LOGO_SIZE = 240;
     private static final int AVATAR_SIZE = 44;
 
-    /**
-     * LOGO IMAGE PLACEHOLDER
-     * ──────────────────────────────────────────────────────────────────────
-     * Place your logo file at the path below and restart the application.
-     * Supported formats: PNG, JPG, GIF, BMP
-     * The image will be automatically scaled and circle-clipped to fit.
-     *
-     * Default path : assets/logo.png
-     * ──────────────────────────────────────────────────────────────────────
-     */
     private static final String LOGO_IMAGE_PATH = "/assets/Logo_official.png";
 
     private final Staff currentStaff;
@@ -183,9 +167,6 @@ class MainMenuFrame extends JFrame {
         startClock();
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // SIDEBAR
-    // ══════════════════════════════════════════════════════════════════════════
     private JPanel buildSidebar() {
         JPanel sidebar = new JPanel();
         sidebar.setLayout(new BoxLayout(sidebar, BoxLayout.Y_AXIS));
@@ -193,16 +174,12 @@ class MainMenuFrame extends JFrame {
         sidebar.setPreferredSize(new Dimension(SIDEBAR_W, 0));
         sidebar.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, DIVIDER));
 
-        // ── Brand / Logo ───────────────────────────────────────────────────────
         JPanel brand = new JPanel();
         brand.setLayout(new BoxLayout(brand, BoxLayout.Y_AXIS));
         brand.setOpaque(false);
         brand.setBorder(BorderFactory.createEmptyBorder(28, 22, 24, 22));
         brand.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        // ── Logo placeholder ──────────────────────────────────────────────────
-        // Shows your actual logo if assets/logo.png exists.
-        // Otherwise shows a styled placeholder with camera icon + hint text.
         JPanel logoContainer = buildLogoContainer();
         logoContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
         brand.add(logoContainer);
@@ -227,7 +204,6 @@ class MainMenuFrame extends JFrame {
         sidebar.add(sidebarDivider());
         sidebar.add(sectionLabel("NAVIGATION"));
 
-        // ── Nav items ─────────────────────────────────────────────────────────
         sidebar.add(navItem("New Order", drawOrderIcon(), () -> {
             new OrderingFrame(currentStaff).setVisible(true);
             dispose();
@@ -259,13 +235,10 @@ class MainMenuFrame extends JFrame {
         return sidebar;
     }
 
-    // ── Logo container — real image or styled placeholder ─────────────────────
     private JPanel buildLogoContainer() {
-        // Try loading the actual logo first
         BufferedImage logoImg = tryLoadLogo(LOGO_SIZE);
 
         if (logoImg != null) {
-            // Real logo found — just wrap it in a label
             JPanel wrapper = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
             wrapper.setOpaque(false);
             wrapper.setMaximumSize(new Dimension(LOGO_SIZE, LOGO_SIZE));
@@ -273,7 +246,6 @@ class MainMenuFrame extends JFrame {
             return wrapper;
         }
 
-        // ── Placeholder — shown when no logo file is found ────────────────────
         JPanel placeholder = new JPanel(new BorderLayout(0, 4)) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -281,12 +253,10 @@ class MainMenuFrame extends JFrame {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
-                // Dashed border circle
                 g2.setColor(new Color(245, 196, 0, 80));
                 g2.setStroke(new BasicStroke(1.5f, BasicStroke.CAP_ROUND,
                         BasicStroke.JOIN_ROUND, 0, new float[] { 5, 4 }, 0));
                 g2.drawOval(1, 1, LOGO_SIZE - 2, LOGO_SIZE - 2);
-                // Subtle fill
                 g2.setColor(new Color(245, 196, 0, 15));
                 g2.fillOval(1, 1, LOGO_SIZE - 2, LOGO_SIZE - 2);
                 g2.dispose();
@@ -296,7 +266,6 @@ class MainMenuFrame extends JFrame {
         placeholder.setPreferredSize(new Dimension(LOGO_SIZE, LOGO_SIZE));
         placeholder.setMaximumSize(new Dimension(LOGO_SIZE, LOGO_SIZE));
 
-        // Camera icon drawn programmatically
         JPanel camIcon = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -307,11 +276,8 @@ class MainMenuFrame extends JFrame {
                 g2.setColor(new Color(245, 196, 0, 120));
                 g2.setStroke(new BasicStroke(1.8f, BasicStroke.CAP_ROUND,
                         BasicStroke.JOIN_ROUND));
-                // Camera body
                 g2.drawRoundRect(2, 5, 20, 14, 3, 3);
-                // Lens
                 g2.drawOval(8, 8, 8, 8);
-                // Viewfinder bump
                 g2.drawLine(8, 5, 10, 2);
                 g2.drawLine(10, 2, 14, 2);
                 g2.drawLine(14, 2, 16, 5);
@@ -343,7 +309,6 @@ class MainMenuFrame extends JFrame {
         return placeholder;
     }
 
-    // ── Tries to load and circle-clip the logo image ───────────────────────────
     private BufferedImage tryLoadLogo(int size) {
         try {
             java.net.URL url = MainMenuFrame.class.getResource(LOGO_IMAGE_PATH);
@@ -377,7 +342,6 @@ class MainMenuFrame extends JFrame {
         return lbl;
     }
 
-    // ── Standard nav row ──────────────────────────────────────────────────────
     private JPanel navItem(String label, BufferedImage icon, Runnable action) {
         JPanel indicator = new JPanel();
         indicator.setPreferredSize(new Dimension(4, NAV_H));
@@ -430,7 +394,6 @@ class MainMenuFrame extends JFrame {
         return row;
     }
 
-    // ── Logout row ────────────────────────────────────────────────────────────
     private JPanel logoutItem() {
         JPanel indicator = new JPanel();
         indicator.setPreferredSize(new Dimension(4, NAV_H));
@@ -483,7 +446,6 @@ class MainMenuFrame extends JFrame {
         return row;
     }
 
-    // ── User strip ────────────────────────────────────────────────────────────
     private JPanel buildUserStrip() {
         JPanel strip = new JPanel(new BorderLayout(14, 0));
         strip.setOpaque(false);
@@ -567,9 +529,6 @@ class MainMenuFrame extends JFrame {
         return sep;
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // CONTENT AREA
-    // ══════════════════════════════════════════════════════════════════════════
     private JPanel buildContent() {
         JPanel content = new JPanel(new BorderLayout(0, 0));
         content.setBackground(BG_CONTENT);
@@ -607,7 +566,6 @@ class MainMenuFrame extends JFrame {
                 Graphics2D g2 = (Graphics2D) g.create();
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                         RenderingHints.VALUE_ANTIALIAS_ON);
-                // Radial glow top-right
                 int glowSize = 420;
                 g2.setPaint(new RadialGradientPaint(
                         new java.awt.geom.Point2D.Float(getWidth(), 0),
@@ -616,7 +574,6 @@ class MainMenuFrame extends JFrame {
                         new Color[] { new Color(245, 196, 0, 22),
                                 new Color(0, 0, 0, 0) }));
                 g2.fillRect(getWidth() - glowSize, 0, glowSize, glowSize);
-                // Dot grid bottom-left
                 g2.setColor(new Color(245, 196, 0, 16));
                 for (int row = 0; row < 7; row++)
                     for (int col = 0; col < 7; col++)
@@ -635,7 +592,6 @@ class MainMenuFrame extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
 
-        // Greeting
         gbc.gridy = 0;
         gbc.insets = new Insets(0, 0, 0, 0);
         JLabel greet = new JLabel("Good day, " + currentStaff.getFullName() + ".");
@@ -643,7 +599,6 @@ class MainMenuFrame extends JFrame {
         greet.setForeground(TEXT_WHITE);
         hero.add(greet, gbc);
 
-        // Subtitle — ── FIXED: wider container so text is not cut short ──
         gbc.gridy = 1;
         gbc.insets = new Insets(10, 0, 0, 0);
         JLabel sub = new JLabel(
@@ -652,7 +607,6 @@ class MainMenuFrame extends JFrame {
         sub.setForeground(TEXT_MUTED);
         hero.add(sub, gbc);
 
-        // Yellow rule
         gbc.gridy = 2;
         gbc.insets = new Insets(36, 0, 36, 0);
         JPanel rule = new JPanel();
@@ -660,7 +614,6 @@ class MainMenuFrame extends JFrame {
         rule.setPreferredSize(new Dimension(0, 2));
         hero.add(rule, gbc);
 
-        // Quick-action pill buttons
         gbc.gridy = 3;
         gbc.insets = new Insets(0, 0, 0, 0);
         JPanel actions = new JPanel(new FlowLayout(FlowLayout.LEFT, 14, 0));
@@ -687,7 +640,6 @@ class MainMenuFrame extends JFrame {
 
         hero.add(actions, gbc);
 
-        // ── Role-specific tip below buttons ──
         gbc.gridy = 4;
         gbc.insets = new Insets(28, 0, 0, 0);
         String tipText = "manager".equalsIgnoreCase(currentStaff.getRole())
@@ -701,7 +653,6 @@ class MainMenuFrame extends JFrame {
         return hero;
     }
 
-    // ── Pill button ───────────────────────────────────────────────────────────
     private JButton pillButton(String text, boolean primary, Runnable action) {
         Color bg = primary ? YELLOW : BG_CARD;
         Color fg = primary ? new Color(20, 20, 20) : TEXT_WHITE;
@@ -736,9 +687,6 @@ class MainMenuFrame extends JFrame {
         return btn;
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // CLOCK
-    // ══════════════════════════════════════════════════════════════════════════
     private void startClock() {
         new javax.swing.Timer(1000, e -> updateClock()).start();
     }
@@ -760,9 +708,6 @@ class MainMenuFrame extends JFrame {
         }
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // AVATAR
-    // ══════════════════════════════════════════════════════════════════════════
     private BufferedImage buildAvatar(int size) {
         String letter = currentStaff.getFullName().trim().isEmpty() ? "?"
                 : String.valueOf(currentStaff.getFullName().trim().charAt(0)).toUpperCase();
@@ -781,9 +726,6 @@ class MainMenuFrame extends JFrame {
         return img;
     }
 
-    // ══════════════════════════════════════════════════════════════════════════
-    // ICON HELPERS
-    // ══════════════════════════════════════════════════════════════════════════
     private BufferedImage scaleIcon(BufferedImage src, int w, int h) {
         BufferedImage out = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = out.createGraphics();
