@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-	private static final String DB_URL  = "jdbc:mysql://localhost:3306/tip_cafeteria";
+	private static final String DB_URL  = "jdbc:mysql://localhost:3306/cafeteria_system";
 	private static final String DB_USER = "root";
-	private static final String DB_PASS = ""; // XAMPP default = no passwordefault has no password
+	private static final String DB_PASS = "";
 
     private static Connection connection = null;
 

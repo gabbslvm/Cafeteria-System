@@ -83,7 +83,7 @@ public class OrderDB {
                 order.setChange(rs.getDouble("change_amount"));
                 order.setStatus(rs.getString("status"));
                 order.setOrderDate(rs.getTimestamp("order_date"));
-                order.setItemCount(rs.getInt("item_count")); // ← NEW
+                order.setItemCount(rs.getInt("item_count"));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -118,7 +118,7 @@ public class OrderDB {
                 order.setChange(rs.getDouble("change_amount"));
                 order.setStatus(rs.getString("status"));
                 order.setOrderDate(rs.getTimestamp("order_date"));
-                order.setItemCount(rs.getInt("item_count")); // ← NEW
+                order.setItemCount(rs.getInt("item_count"));
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -145,7 +145,7 @@ public class OrderDB {
 
     public Order getOrderById(int orderId) {
         String orderSql = "SELECT * FROM orders WHERE order_id = ?";
-        String itemsSql = "SELECT oi.*, mi.name, mi.category, mi.price, mi.is_available " +
+        String itemsSql = "SELECT oi.*, mi.name, mi.category, mi.price, mi.is_available, mi.stock " +
                 "FROM order_items oi " +
                 "JOIN menu_items mi ON oi.item_id = mi.item_id " +
                 "WHERE oi.order_id = ?";
@@ -185,7 +185,7 @@ public class OrderDB {
                     orderItems.add(new OrderItem(menuItem, itemsRs.getInt("quantity")));
                 }
 
-                order.setOrderItems(orderItems); // also populates size via getItemCount()
+                order.setOrderItems(orderItems);
                 return order;
             }
 

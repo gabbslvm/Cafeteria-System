@@ -63,18 +63,15 @@ public class MenuItemDB {
     }
 
     public void addItem(MenuItem item) {
-        String sql = "INSERT INTO menu_items (name, category, price, is_available) VALUES (?, ?, ?, ?)";
-
+        String sql = "INSERT INTO menu_items (name, category, price, is_available, stock) VALUES (?, ?, ?, ?, ?)";
         try {
             Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, item.getName());
             stmt.setString(2, item.getCategory());
             stmt.setDouble(3, item.getPrice());
             stmt.setBoolean(4, item.isAvailable());
             stmt.setInt(5, item.getStock());
-
             stmt.executeUpdate();
             System.out.println("Menu item added successfully.");
         } catch (SQLException e) {
@@ -83,19 +80,16 @@ public class MenuItemDB {
     }
 
     public void updateItem(MenuItem item) {
-        String sql = "UPDATE menu_items SET name = ?, category = ?, price = ?, is_available = ? WHERE item_id = ?";
-
+        String sql = "UPDATE menu_items SET name = ?, category = ?, price = ?, is_available = ?, stock = ? WHERE item_id = ?";
         try {
             Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
-
             stmt.setString(1, item.getName());
             stmt.setString(2, item.getCategory());
             stmt.setDouble(3, item.getPrice());
             stmt.setBoolean(4, item.isAvailable());
             stmt.setInt(5, item.getStock());
             stmt.setInt(6, item.getMenuItemId());
-
             stmt.executeUpdate();
             System.out.println("Menu item updated successfully.");
         } catch (SQLException e) {
@@ -125,7 +119,7 @@ public class MenuItemDB {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, quantity);
             stmt.setInt(2, itemId);
-            stmt.setInt(3, quantity); // safety: only deduct if enough stock exists
+            stmt.setInt(3, quantity);
             stmt.executeUpdate();
             System.out.println("Stock deducted for item ID: " + itemId);
         } catch (SQLException e) {

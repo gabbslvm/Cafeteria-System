@@ -29,12 +29,11 @@ public class MenuManagementFrame extends JFrame {
     private DefaultTableModel tableModel;
     private List<MenuItem> menuItems;
 
-    // ── Form fields ──
     private JTextField nameField, priceField, stockField;
     private JComboBox<String> categoryCombo;
     private JCheckBox availableCheckBox;
     private JButton saveBtn;
-    private int editingIndex = -1; // -1 = adding new, >= 0 = editing existing
+    private int editingIndex = -1;
 
     public MenuManagementFrame(Staff staff) {
         this.currentStaff = staff;
@@ -57,9 +56,6 @@ public class MenuManagementFrame extends JFrame {
         add(root);
     }
 
-    // ══════════════════════════════════════════════════════════════════════
-    // HEADER
-    // ══════════════════════════════════════════════════════════════════════
     private JPanel header() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(BG_DARKER);
@@ -76,9 +72,6 @@ public class MenuManagementFrame extends JFrame {
         return p;
     }
 
-    // ══════════════════════════════════════════════════════════════════════
-    // CENTER — table on left, form on right
-    // ══════════════════════════════════════════════════════════════════════
     private JPanel buildCenter() {
         JPanel p = new JPanel(new BorderLayout(12, 0));
         p.setBackground(BG_DARK);
@@ -88,7 +81,6 @@ public class MenuManagementFrame extends JFrame {
         return p;
     }
 
-    // ── Left: menu table ──────────────────────────────────────────────────
     private JPanel buildTablePanel() {
         JPanel p = new JPanel(new BorderLayout());
         p.setBackground(BG_DARK);
@@ -100,7 +92,6 @@ public class MenuManagementFrame extends JFrame {
         menuTable = new JTable(tableModel);
         styleTable(menuTable);
 
-        // Column widths
         menuTable.getColumnModel().getColumn(0).setMaxWidth(50);
         menuTable.getColumnModel().getColumn(0).setMinWidth(50);
         menuTable.getColumnModel().getColumn(3).setMaxWidth(80);
@@ -110,12 +101,9 @@ public class MenuManagementFrame extends JFrame {
         menuTable.getColumnModel().getColumn(5).setMaxWidth(80);
         menuTable.getColumnModel().getColumn(5).setMinWidth(80);
 
-        // Stock color renderer — red if low
         menuTable.getColumnModel().getColumn(4).setCellRenderer(new StockRenderer());
-        // Available renderer
         menuTable.getColumnModel().getColumn(5).setCellRenderer(new AvailableRenderer());
 
-        // Row click — populate form for editing
         menuTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) populateFormFromSelection();
         });
@@ -141,7 +129,6 @@ public class MenuManagementFrame extends JFrame {
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
-    // ── Right: add/edit form ──────────────────────────────────────────────
     private JPanel buildFormPanel() {
         JPanel p = new JPanel();
         p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
@@ -158,13 +145,11 @@ public class MenuManagementFrame extends JFrame {
         p.add(formTitle);
         p.add(Box.createVerticalStrut(14));
 
-        // Name
         p.add(formLabel("Item Name:"));
         nameField = formTextField();
         p.add(nameField);
         p.add(Box.createVerticalStrut(10));
 
-        // Category
         p.add(formLabel("Category:"));
         categoryCombo = new JComboBox<>(new String[]{ "Meal", "Snack", "Drink", "Combo", "Others" });
         categoryCombo.setBackground(BG_PANEL);
@@ -175,19 +160,16 @@ public class MenuManagementFrame extends JFrame {
         p.add(categoryCombo);
         p.add(Box.createVerticalStrut(10));
 
-        // Price
         p.add(formLabel("Price (₱):"));
         priceField = formTextField();
         p.add(priceField);
         p.add(Box.createVerticalStrut(10));
 
-        // Stock
         p.add(formLabel("Stock:"));
         stockField = formTextField();
         p.add(stockField);
         p.add(Box.createVerticalStrut(10));
 
-        // Available checkbox
         availableCheckBox = new JCheckBox("Available for ordering");
         availableCheckBox.setFont(new Font("Arial", Font.PLAIN, 12));
         availableCheckBox.setForeground(TEXT_MAIN);
@@ -198,7 +180,6 @@ public class MenuManagementFrame extends JFrame {
         p.add(availableCheckBox);
         p.add(Box.createVerticalStrut(16));
 
-        // Save button
         saveBtn = new JButton("＋ Add Item");
         saveBtn.setBackground(GREEN_BTN);
         saveBtn.setForeground(Color.WHITE);
@@ -212,7 +193,6 @@ public class MenuManagementFrame extends JFrame {
         p.add(saveBtn);
         p.add(Box.createVerticalStrut(8));
 
-        // Clear/Cancel button
         JButton clearBtn = new JButton("✕ Clear Form");
         clearBtn.setBackground(new Color(60, 60, 60));
         clearBtn.setForeground(TEXT_MUTED);
@@ -250,9 +230,6 @@ public class MenuManagementFrame extends JFrame {
         return f;
     }
 
-    // ══════════════════════════════════════════════════════════════════════
-    // FOOTER — delete button
-    // ══════════════════════════════════════════════════════════════════════
     private JPanel buildFooter() {
         JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, 14, 8));
         p.setBackground(BG_DARKER);
@@ -286,9 +263,6 @@ public class MenuManagementFrame extends JFrame {
         return b;
     }
 
-    // ══════════════════════════════════════════════════════════════════════
-    // LOGIC
-    // ══════════════════════════════════════════════════════════════════════
     private void loadMenu() {
         menuItems = menuItemDB.getAllItems();
         tableModel.setRowCount(0);
@@ -320,7 +294,6 @@ public class MenuManagementFrame extends JFrame {
     }
 
     private void saveItem() {
-        // ── Validate inputs ──
         String name = nameField.getText().trim();
         String category = (String) categoryCombo.getSelectedItem();
         String priceText = priceField.getText().trim();
@@ -349,14 +322,12 @@ public class MenuManagementFrame extends JFrame {
         }
 
         if (editingIndex == -1) {
-            // ── CREATE: adding a new item ──
             MenuItem newItem = new MenuItem(0, name, category, price, available, stock);
             menuItemDB.addItem(newItem);
             JOptionPane.showMessageDialog(this,
                     "\"" + name + "\" has been added to the menu.",
                     "Item Added", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            // ── UPDATE: editing existing item ──
             MenuItem existing = menuItems.get(editingIndex);
             existing.setName(name);
             existing.setCategory(category);
@@ -368,7 +339,7 @@ public class MenuManagementFrame extends JFrame {
                     "\"" + name + "\" has been updated.",
                     "Item Updated", JOptionPane.INFORMATION_MESSAGE);
         }
-        loadMenu(); // refresh table from DB
+        loadMenu();
     }
 
     private void deleteItem() {
@@ -403,11 +374,6 @@ public class MenuManagementFrame extends JFrame {
         menuTable.clearSelection();
     }
 
-    // ══════════════════════════════════════════════════════════════════════
-    // CUSTOM RENDERERS
-    // ══════════════════════════════════════════════════════════════════════
-
-    // Stock column — red if ≤5, yellow if ≤20, green otherwise
     private class StockRenderer extends DefaultTableCellRenderer {
         public Component getTableCellRendererComponent(JTable t, Object v,
                 boolean sel, boolean foc, int r, int c) {
@@ -416,9 +382,9 @@ public class MenuManagementFrame extends JFrame {
             setHorizontalAlignment(CENTER);
             try {
                 int stock = Integer.parseInt(v.toString());
-                if (stock <= 5)       setForeground(new Color(220, 80, 80));   // red
-                else if (stock <= 20) setForeground(new Color(245, 196, 0));   // yellow
-                else                  setForeground(new Color(100, 200, 100)); // green
+                if (stock <= 5)       setForeground(new Color(220, 80, 80));
+                else if (stock <= 20) setForeground(new Color(245, 196, 0));
+                else                  setForeground(new Color(100, 200, 100));
             } catch (NumberFormatException e) {
                 setForeground(TEXT_MAIN);
             }
@@ -426,7 +392,6 @@ public class MenuManagementFrame extends JFrame {
         }
     }
 
-    // Available column — green Yes / red No
     private class AvailableRenderer extends DefaultTableCellRenderer {
         public Component getTableCellRendererComponent(JTable t, Object v,
                 boolean sel, boolean foc, int r, int c) {

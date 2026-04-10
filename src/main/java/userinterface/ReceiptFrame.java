@@ -52,16 +52,17 @@ public class ReceiptFrame extends JDialog {
         p.setBackground(BG);
         p.setBorder(BorderFactory.createEmptyBorder(20, 28, 10, 28));
 
-        // Store name
         JLabel store = new JLabel(AppConstants.APP_TITLE, SwingConstants.CENTER);
         store.setFont(new Font("Courier New", Font.BOLD, 18));
         store.setForeground(DARK);
         store.setAlignmentX(Component.CENTER_ALIGNMENT);
+        store.setMaximumSize(new Dimension(Integer.MAX_VALUE, 28));
 
         JLabel tagline = new JLabel("Official Receipt", SwingConstants.CENTER);
         tagline.setFont(new Font("Courier New", Font.PLAIN, 12));
         tagline.setForeground(MUTED);
         tagline.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tagline.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
 
         p.add(store);
         p.add(Box.createVerticalStrut(4));
@@ -69,20 +70,18 @@ public class ReceiptFrame extends JDialog {
         p.add(Box.createVerticalStrut(10));
         p.add(divider());
 
-        // Meta info
         String dateStr = order.getOrderDate() != null
                 ? new SimpleDateFormat("MMM dd, yyyy  hh:mm a").format(order.getOrderDate())
                 : "—";
         p.add(receiptRow("Date", dateStr));
-        // Parse queue_number field — stored as "YYMM-NNN" (e.g. "2603-003")
         String qNum = order.getQueueNumber();
         String queueDisp;
         String orderIdDisp;
         if (qNum != null && qNum.length() >= 8 && Character.isDigit(qNum.charAt(0))) {
-            queueDisp = "Q-" + qNum.substring(5); // "Q-003"
-            orderIdDisp = qNum; // "2603-003"
+            queueDisp = "Q-" + qNum.substring(5);
+            orderIdDisp = qNum;
         } else {
-            queueDisp = qNum; // fallback for old format
+            queueDisp = qNum;
             orderIdDisp = String.valueOf(order.getOrderId());
         }
         p.add(receiptRow("Queue #", queueDisp));
@@ -91,7 +90,6 @@ public class ReceiptFrame extends JDialog {
         p.add(Box.createVerticalStrut(6));
         p.add(divider());
 
-        // Items
         JLabel itemsHeader = new JLabel("  ITEMS");
         itemsHeader.setFont(new Font("Courier New", Font.BOLD, 12));
         itemsHeader.setForeground(MUTED);
@@ -117,13 +115,11 @@ public class ReceiptFrame extends JDialog {
         p.add(Box.createVerticalStrut(6));
         p.add(divider());
 
-        // Totals
         p.add(receiptRow("Subtotal", "₱ " + String.format("%.2f", order.getTotalAmount())));
         if (order.getDiscountAmount() > 0) {
             p.add(receiptRow("Discount (20%)", "- ₱ " + String.format("%.2f", order.getDiscountAmount())));
         }
         JPanel finalRow = receiptRow("TOTAL", "₱ " + String.format("%.2f", order.getFinalAmount()));
-        // Bold the final row
         for (Component c : finalRow.getComponents()) {
             if (c instanceof JLabel) {
                 c.setFont(new Font("Courier New", Font.BOLD, 14));
@@ -137,10 +133,10 @@ public class ReceiptFrame extends JDialog {
         p.add(Box.createVerticalStrut(8));
         p.add(divider());
 
-        // Thank you
         JLabel thanks = new JLabel("Thank you for your purchase!", SwingConstants.CENTER);
         thanks.setFont(new Font("Courier New", Font.ITALIC, 12));
         thanks.setForeground(MUTED);
+        thanks.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
         thanks.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(Box.createVerticalStrut(8));
         p.add(thanks);
@@ -186,7 +182,6 @@ public class ReceiptFrame extends JDialog {
         return p;
     }
 
-    // ── Helpers ──
     private JPanel receiptRow(String label, String value) {
         JPanel row = new JPanel(new BorderLayout());
         row.setBackground(BG);
