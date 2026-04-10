@@ -27,70 +27,94 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBackground(new Color(30, 30, 30));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+        JPanel backgroundPanel = new JPanel(new GridBagLayout());
+        backgroundPanel.setBackground(new Color(22, 22, 22));
 
-        JLabel titleLabel = new JLabel(AppConstants.APP_TITLE, SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        titleLabel.setForeground(new Color(245, 196, 0));
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
-
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(new Color(245, 245, 245));
-        formPanel.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(245, 196, 0), 2),
-                BorderFactory.createEmptyBorder(20, 20, 20, 20)));
+        JPanel cardPanel = new JPanel(new GridBagLayout());
+        cardPanel.setBackground(new Color(28, 28, 28));
+        cardPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(40, 40, 40), 1),
+                BorderFactory.createEmptyBorder(30, 40, 30, 40)
+        ));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(6, 6, 6, 6);
-
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        formPanel.add(new JLabel("Username:"), gbc);
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
+
+        JLabel titleLabel = new JLabel(AppConstants.APP_TITLE, SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        titleLabel.setForeground(new Color(245, 196, 0));
+        cardPanel.add(titleLabel, gbc);
+
+        gbc.gridy++;
+        gbc.insets = new Insets(2, 0, 25, 0);
+        JLabel subTitle = new JLabel("JAVAngers |Point of Sale System", SwingConstants.CENTER);
+        subTitle.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        subTitle.setForeground(new Color(140, 140, 140));
+        cardPanel.add(subTitle, gbc);
+
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 4, 0);
+        JLabel userLabel = new JLabel("Username");
+        userLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        userLabel.setForeground(new Color(200, 200, 200));
+        cardPanel.add(userLabel, gbc);
+
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 15, 0);
         usernameField = new JTextField();
-        usernameField.setPreferredSize(new Dimension(300, 28));
-        formPanel.add(usernameField, gbc);
+        usernameField.setPreferredSize(new Dimension(280, 36));
+        usernameField.setBackground(new Color(40, 40, 40));
+        usernameField.setForeground(Color.WHITE);
+        usernameField.setCaretColor(Color.WHITE);
+        usernameField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(60, 60, 60)),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        cardPanel.add(usernameField, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.EAST;
-        formPanel.add(new JLabel("Password:"), gbc);
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 4, 0);
+        JLabel passLabel = new JLabel("Password");
+        passLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        passLabel.setForeground(new Color(200, 200, 200));
+        cardPanel.add(passLabel, gbc);
+
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 25, 0);
         passwordField = new JPasswordField();
-        passwordField.setPreferredSize(new Dimension(300, 28));
-        formPanel.add(passwordField, gbc);
+        passwordField.setPreferredSize(new Dimension(280, 36));
+        passwordField.setBackground(new Color(40, 40, 40));
+        passwordField.setForeground(Color.WHITE);
+        passwordField.setCaretColor(Color.WHITE);
+        passwordField.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(60, 60, 60)),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        cardPanel.add(passwordField, gbc);
 
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(14, 6, 4, 6);
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 10, 0);
         JButton loginButton = new JButton("Log In");
-        loginButton.setPreferredSize(new Dimension(300, 32));
+        loginButton.setPreferredSize(new Dimension(280, 40));
         loginButton.setBackground(new Color(245, 196, 0));
-        loginButton.setForeground(new Color(30, 30, 30));
-        loginButton.setFont(new Font("Arial", Font.BOLD, 13));
+        loginButton.setForeground(new Color(20, 20, 20));
+        loginButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         loginButton.setFocusPainted(false);
+        loginButton.setBorderPainted(false);
         loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        formPanel.add(loginButton, gbc);
+        cardPanel.add(loginButton, gbc);
 
-        gbc.gridy = 3;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(4, 6, 4, 6);
-        statusLabel = new JLabel("", SwingConstants.CENTER);
-        statusLabel.setForeground(Color.RED);
-        statusLabel.setFont(new Font("Arial", Font.ITALIC, 11));
-        formPanel.add(statusLabel, gbc);
+        gbc.gridy++;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        statusLabel = new JLabel(" ", SwingConstants.CENTER);
+        statusLabel.setForeground(new Color(215, 70, 70));
+        statusLabel.setFont(new Font("Segoe UI", Font.ITALIC, 12));
+        cardPanel.add(statusLabel, gbc);
 
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
-        mainPanel.add(formPanel, BorderLayout.CENTER);
-        add(mainPanel);
+        backgroundPanel.add(cardPanel);
+        add(backgroundPanel);
 
         loginButton.addActionListener((ActionEvent e) -> handleLogin());
         getRootPane().setDefaultButton(loginButton);
@@ -99,11 +123,14 @@ public class MainFrame extends JFrame {
     private void handleLogin() {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
+        
         if (username.isEmpty() || password.isEmpty()) {
             statusLabel.setText("Please fill in all fields.");
             return;
         }
+        
         Staff loggedInStaff = staffDAO.authenticate(username, password);
+        
         if (loggedInStaff != null) {
             statusLabel.setText("");
             new MainMenuFrame(loggedInStaff).setVisible(true);
@@ -114,7 +141,6 @@ public class MainFrame extends JFrame {
         }
     }
 }
-
 class MainMenuFrame extends JFrame {
 
     private static final Color BG_SIDEBAR = new Color(10, 10, 10);
