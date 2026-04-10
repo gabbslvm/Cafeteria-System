@@ -56,11 +56,13 @@ public class ReceiptFrame extends JDialog {
         store.setFont(new Font("Courier New", Font.BOLD, 18));
         store.setForeground(DARK);
         store.setAlignmentX(Component.CENTER_ALIGNMENT);
+        store.setMaximumSize(new Dimension(Integer.MAX_VALUE, 28));
 
         JLabel tagline = new JLabel("Official Receipt", SwingConstants.CENTER);
         tagline.setFont(new Font("Courier New", Font.PLAIN, 12));
         tagline.setForeground(MUTED);
         tagline.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tagline.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
 
         p.add(store);
         p.add(Box.createVerticalStrut(4));
@@ -134,6 +136,7 @@ public class ReceiptFrame extends JDialog {
         JLabel thanks = new JLabel("Thank you for your purchase!", SwingConstants.CENTER);
         thanks.setFont(new Font("Courier New", Font.ITALIC, 12));
         thanks.setForeground(MUTED);
+        thanks.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
         thanks.setAlignmentX(Component.CENTER_ALIGNMENT);
         p.add(Box.createVerticalStrut(8));
         p.add(thanks);

@@ -106,7 +106,7 @@ public class TransacHistory extends JFrame {
         p.setBackground(BG_DARK);
         p.setBorder(BorderFactory.createEmptyBorder(12, 12, 8, 12));
 
-        String[] cols = { "Order ID", "Queue", "Date", "Total", "Discount", "Final", "Paid", "Change", "Status" };
+        String[] cols = { "Order ID", "Date", "Total", "Discount", "Final", "Paid", "Change", "Status" };
         tableModel = new DefaultTableModel(cols, 0) {
             public boolean isCellEditable(int r, int c) {
                 return false;
@@ -168,7 +168,7 @@ public class TransacHistory extends JFrame {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm");
         for (Order o : list) {
             tableModel.addRow(new Object[] {
-                    o.getOrderId(), o.getQueueNumber(),
+                    o.getQueueNumber(),
                     o.getOrderDate() != null ? sdf.format(o.getOrderDate()) : "—",
                     "₱ " + String.format("%.2f", o.getTotalAmount()),
                     "₱ " + String.format("%.2f", o.getDiscountAmount()),

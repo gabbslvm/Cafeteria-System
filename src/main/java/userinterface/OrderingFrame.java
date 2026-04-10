@@ -160,15 +160,18 @@ public class OrderingFrame extends JFrame {
     }
 
     private JPanel menuCard(MenuItem mi) {
+        boolean outOfStock = mi.getStock() <= 0 || !mi.isAvailable();
+
         JPanel card = new JPanel(new BorderLayout(0, 6));
-        card.setBackground(BG_PANEL);
+        card.setBackground(outOfStock ? new Color(33, 33, 33) : BG_PANEL);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(55, 55, 55)),
+                BorderFactory.createLineBorder(outOfStock ? new Color(45, 45, 45) : new Color(55, 55, 55)),
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        card.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        card.setCursor(new Cursor(outOfStock ? Cursor.DEFAULT_CURSOR : Cursor.HAND_CURSOR));
+
         JLabel name = new JLabel("<html><body style='width:120px'>" + mi.getName() + "</body></html>");
         name.setFont(new Font("Arial", Font.BOLD, 13));
-        name.setForeground(TEXT_MAIN);
+        name.setForeground(outOfStock ? TEXT_MUTED : TEXT_MAIN);
 
         JLabel cat = new JLabel(mi.getCategory());
         cat.setFont(new Font("Arial", Font.PLAIN, 11));
@@ -176,40 +179,43 @@ public class OrderingFrame extends JFrame {
 
         JLabel price = new JLabel("₱ " + String.format("%.2f", mi.getPrice()));
         price.setFont(new Font("Arial", Font.BOLD, 14));
-        price.setForeground(ACCENT);
-        
-        JLabel stockLabel = new JLabel("Stock: " + mi.getStock());
+        price.setForeground(outOfStock ? TEXT_MUTED : ACCENT);
+
+        JLabel stockLabel = new JLabel(outOfStock ? "Out of Stock" : "Stock: " + mi.getStock());
         stockLabel.setFont(new Font("Arial", Font.PLAIN, 11));
-        stockLabel.setForeground(mi.getStock() <=6
-                ? new Color(220, 80, 80)
-                : new Color(100, 200, 100)
-            );
-    
-        JPanel info = new JPanel(new GridLayout(3, 1, 2, 2));
+        stockLabel.setForeground(outOfStock ? new Color(180, 60, 60)
+                : mi.getStock() <= 6 ? new Color(220, 80, 80) : new Color(100, 200, 100));
+
+        JPanel info = new JPanel(new GridLayout(4, 1, 2, 2));
         info.setOpaque(false);
         info.add(name);
         info.add(cat);
         info.add(price);
         info.add(stockLabel);
 
-        JButton add = new JButton("+ Add");
-        add.setBackground(ACCENT);
-        add.setForeground(BG_DARKER);
+        JButton add = new JButton(outOfStock ? "Unavailable" : "+ Add");
+        add.setBackground(outOfStock ? new Color(55, 55, 55) : ACCENT);
+        add.setForeground(outOfStock ? TEXT_MUTED : BG_DARKER);
         add.setFont(new Font("Arial", Font.BOLD, 12));
         add.setFocusPainted(false);
-        add.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add.setCursor(new Cursor(outOfStock ? Cursor.DEFAULT_CURSOR : Cursor.HAND_CURSOR));
         add.setBorder(BorderFactory.createEmptyBorder(7, 0, 7, 0));
-        add.addActionListener(e -> addToCart(mi));
-        
-        card.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                card.setBackground(new Color(50, 50, 50));
-            }
+        add.setEnabled(!outOfStock);
+        if (!outOfStock)
+            add.addActionListener(e -> addToCart(mi));
 
-            public void mouseExited(MouseEvent e) {
-                card.setBackground(BG_PANEL);
-            }
-        });
+        if (!outOfStock) {
+            card.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    card.setBackground(new Color(50, 50, 50));
+                }
+
+                public void mouseExited(MouseEvent e) {
+                    card.setBackground(BG_PANEL);
+                }
+            });
+        }
+
         card.add(info, BorderLayout.CENTER);
         card.add(add, BorderLayout.SOUTH);
         return card;
@@ -446,22 +452,14 @@ public class OrderingFrame extends JFrame {
     private void decrementOrRemove(int row) {
         if (row < 0 || row >= cart.size())
             return;
-
         String itemName = cart.get(row).getMenuItem().getName();
         int currentQty = cart.get(row).getQuantity();
-
         Object[] options = { "− Remove 1 Qty", "✕ Remove Item", "Cancel" };
-        int choice = JOptionPane.showOptionDialog(
-                this,
+        int choice = JOptionPane.showOptionDialog(this,
                 "<html>What do you want to do with <b>" + itemName + "</b>?<br>"
                         + "Current quantity: <b>" + currentQty + "</b></html>",
-                "Modify Cart Item",
-                JOptionPane.YES_NO_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
-
+                "Modify Cart Item", JOptionPane.YES_NO_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if (choice == 0) {
             if (currentQty <= 1) {
                 removeRow(row);
@@ -537,9 +535,9 @@ public class OrderingFrame extends JFrame {
         }
         order.setOrderId(orderId);
         MenuItemDB menuItemDB = new MenuItemDB();
-            for(OrderItem oi : cart) {
-                menuItemDB.deductStock(oi.getMenuItem().getMenuItemId(), oi.getQuantity());
-            }
+        for (OrderItem oi : cart) {
+            menuItemDB.deductStock(oi.getMenuItem().getMenuItemId(), oi.getQuantity());
+        }
         new OrderList(currentStaff).setVisible(true);
         dispose();
     }
@@ -662,6 +660,20 @@ class OrderList extends JFrame {
         };
         orderTable = new JTable(tableModel);
         styleTable(orderTable);
+
+        // Items column click → show dialog
+        orderTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                int row = orderTable.rowAtPoint(e.getPoint());
+                int col = orderTable.columnAtPoint(e.getPoint());
+                if (row < 0 || col != 2)
+                    return;
+                Order order = orders.get(row);
+                Order full = orderDB.getOrderById(order.getOrderId());
+                showItemsDialog(full != null ? full : order);
+            }
+        });
+
         orderTable.getColumn("Advance").setCellRenderer(new AdvanceBtnRenderer());
         orderTable.getColumn("Advance").setCellEditor(new AdvanceBtnEditor());
         orderTable.getColumn("Advance").setMaxWidth(130);
@@ -689,6 +701,7 @@ class OrderList extends JFrame {
         t.getTableHeader().setForeground(TEXT_MUTED);
         t.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
         t.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        t.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
 
     private JPanel footer() {
@@ -767,8 +780,7 @@ class OrderList extends JFrame {
                 queueDisp = qNum;
             }
             tableModel.addRow(new Object[] {
-                    qNum,
-                    queueDisp,
+                    qNum, queueDisp,
                     o.getItemCount() + " item(s)",
                     "₱ " + String.format("%.2f", o.getTotalAmount()),
                     "₱ " + String.format("%.2f", o.getDiscountAmount()),
@@ -778,6 +790,77 @@ class OrderList extends JFrame {
                     "✕ Void"
             });
         }
+    }
+
+    private void showItemsDialog(Order order) {
+        JDialog dialog = new JDialog(this, "Order " + order.getQueueNumber() + " — Items", true);
+        dialog.setSize(380, 300);
+        dialog.setLocationRelativeTo(this);
+        dialog.setResizable(false);
+
+        JPanel root = new JPanel(new BorderLayout());
+        root.setBackground(BG_DARK);
+        root.setBorder(BorderFactory.createEmptyBorder(14, 16, 14, 16));
+
+        JLabel title = new JLabel("Items in Order " + order.getQueueNumber());
+        title.setFont(new Font("Arial", Font.BOLD, 14));
+        title.setForeground(ACCENT);
+        title.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+
+        String[] cols = { "Item", "Qty", "Subtotal" };
+        DefaultTableModel model = new DefaultTableModel(cols, 0) {
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
+        };
+
+        if (order.getOrderItems() != null && !order.getOrderItems().isEmpty()) {
+            for (OrderItem oi : order.getOrderItems()) {
+                model.addRow(new Object[] {
+                        oi.getMenuItem().getName(),
+                        oi.getQuantity(),
+                        "₱ " + String.format("%.2f", oi.getSubtotal())
+                });
+            }
+        } else {
+            model.addRow(new Object[] { "(No item details available)", "", "" });
+        }
+
+        JTable table = new JTable(model);
+        table.setBackground(BG_PANEL);
+        table.setForeground(TEXT_MAIN);
+        table.setFont(new Font("Arial", Font.PLAIN, 13));
+        table.setRowHeight(30);
+        table.setGridColor(new Color(55, 55, 55));
+        table.getTableHeader().setBackground(BG_DARKER);
+        table.getTableHeader().setForeground(TEXT_MUTED);
+        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
+        table.setEnabled(false);
+        table.getColumnModel().getColumn(1).setMaxWidth(50);
+        table.getColumnModel().getColumn(2).setMaxWidth(100);
+
+        JScrollPane scroll = new JScrollPane(table);
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(55, 55, 55)));
+        scroll.getViewport().setBackground(BG_PANEL);
+
+        JButton close = new JButton("Close");
+        close.setBackground(new Color(60, 60, 60));
+        close.setForeground(Color.WHITE);
+        close.setFont(new Font("Arial", Font.BOLD, 12));
+        close.setFocusPainted(false);
+        close.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        close.setBorder(BorderFactory.createEmptyBorder(7, 18, 7, 18));
+        close.addActionListener(e -> dialog.dispose());
+
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 8));
+        btnPanel.setBackground(BG_DARK);
+        btnPanel.add(close);
+
+        root.add(title, BorderLayout.NORTH);
+        root.add(scroll, BorderLayout.CENTER);
+        root.add(btnPanel, BorderLayout.SOUTH);
+        dialog.add(root);
+        dialog.setVisible(true);
     }
 
     private String advanceBtnLabel(String status) {

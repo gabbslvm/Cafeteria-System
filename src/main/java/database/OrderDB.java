@@ -145,7 +145,7 @@ public class OrderDB {
 
     public Order getOrderById(int orderId) {
         String orderSql = "SELECT * FROM orders WHERE order_id = ?";
-        String itemsSql = "SELECT oi.*, mi.name, mi.category, mi.price, mi.is_available " +
+        String itemsSql = "SELECT oi.*, mi.name, mi.category, mi.price, mi.is_available, mi.stock " +
                 "FROM order_items oi " +
                 "JOIN menu_items mi ON oi.item_id = mi.item_id " +
                 "WHERE oi.order_id = ?";
