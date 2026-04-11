@@ -193,7 +193,7 @@ public class MenuManagementFrame extends JFrame {
         p.add(saveBtn);
         p.add(Box.createVerticalStrut(8));
 
-        JButton clearBtn = new JButton("✕ Clear Form");
+        JButton clearBtn = new JButton("Clear Form");
         clearBtn.setBackground(new Color(60, 60, 60));
         clearBtn.setForeground(TEXT_MUTED);
         clearBtn.setFont(new Font("Arial", Font.BOLD, 12));
@@ -240,10 +240,10 @@ public class MenuManagementFrame extends JFrame {
             dispose();
         });
 
-        JButton deleteBtn = footerBtn("🗑  Delete Selected", RED_BTN);
+        JButton deleteBtn = footerBtn("Delete Selected", RED_BTN);
         deleteBtn.addActionListener(e -> deleteItem());
 
-        JButton refreshBtn = footerBtn("⟳  Refresh", BLUE_BTN);
+        JButton refreshBtn = footerBtn("Refresh", BLUE_BTN);
         refreshBtn.addActionListener(e -> loadMenu());
 
         p.add(back);
@@ -289,7 +289,7 @@ public class MenuManagementFrame extends JFrame {
         priceField.setText(String.valueOf(mi.getPrice()));
         stockField.setText(String.valueOf(mi.getStock()));
         availableCheckBox.setSelected(mi.isAvailable());
-        saveBtn.setText("💾  Save Changes");
+        saveBtn.setText("Save Changes");
         saveBtn.setBackground(BLUE_BTN);
     }
 
@@ -369,7 +369,7 @@ public class MenuManagementFrame extends JFrame {
         priceField.setText("");
         stockField.setText("");
         availableCheckBox.setSelected(true);
-        saveBtn.setText("＋ Add Item");
+        saveBtn.setText("Add Item");
         saveBtn.setBackground(GREEN_BTN);
         menuTable.clearSelection();
     }
