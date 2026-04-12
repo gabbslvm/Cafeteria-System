@@ -6,7 +6,6 @@ import model.Staff;
 import util.AppConstants;
 
 import javax.swing.*;
-import javax.swing.border.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 
@@ -16,7 +15,6 @@ public class ReceiptFrame extends JDialog {
     private static final Color DIVIDER = new Color(200, 200, 200);
     private static final Color DARK = new Color(30, 30, 30);
     private static final Color MUTED = new Color(100, 100, 100);
-    private static final Color ACCENT = new Color(180, 130, 0);
 
     private boolean goToMainMenu = false;
     private final Order order;

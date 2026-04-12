@@ -49,8 +49,8 @@ public class OrderingFrame extends JFrame {
         this.currentStaff = staff;
         int seq = new OrderDB().getTodayOrderCount() + 1;
         LocalDateTime now = LocalDateTime.now();
-        String yymm = String.format("%02d%02d", now.getYear() % 100, now.getMonthValue());
-        this.orderDisplayId = yymm + "-" + String.format("%03d", seq);
+        String yymmdd = String.format("%02d%02d%02d", now.getYear() % 100, now.getMonthValue(), now.getDayOfMonth());
+        this.orderDisplayId = yymmdd + "-" + String.format("%03d", seq);
         this.queueDisplay = "Q-" + String.format("%03d", seq);
         new MenuItemDB().getAvailableItems().forEach(allMenuItems::add);
         initUI();
@@ -109,6 +109,8 @@ public class OrderingFrame extends JFrame {
         JScrollPane scroll = new JScrollPane(menuGridPanel);
         scroll.setBorder(null);
         scroll.getViewport().setBackground(BG_DARK);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         p.add(categoryBar, BorderLayout.NORTH);
         p.add(scroll, BorderLayout.CENTER);
         refreshGrid();
@@ -723,7 +725,7 @@ class OrderList extends JFrame {
             new OrderingFrame(currentStaff).setVisible(true);
             dispose();
         });
-        JButton refresh = btn("⟳  Refresh", new Color(60, 80, 120));
+        JButton refresh = btn("Refresh", new Color(60, 80, 120));
         refresh.addActionListener(e -> loadOrders());
         p.add(back);
         p.add(newOrder);
@@ -774,8 +776,8 @@ class OrderList extends JFrame {
             orders.add(o);
             String qNum = o.getQueueNumber();
             String queueDisp;
-            if (qNum != null && qNum.length() >= 8 && Character.isDigit(qNum.charAt(0))) {
-                queueDisp = "Q-" + qNum.substring(5);
+            if (qNum != null && qNum.length() >= 10 && Character.isDigit(qNum.charAt(0))) {
+                queueDisp = "Q-" + qNum.substring(7);
             } else {
                 queueDisp = qNum;
             }
@@ -787,7 +789,7 @@ class OrderList extends JFrame {
                     "₱ " + String.format("%.2f", o.getFinalAmount()),
                     o.getStatus(),
                     advanceBtnLabel(o.getStatus()),
-                    "✕ Void"
+                    "Void"
             });
         }
     }

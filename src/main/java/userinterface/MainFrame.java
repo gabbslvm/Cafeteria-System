@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class MainFrame extends JFrame {
     private JTextField usernameField;
@@ -49,7 +48,7 @@ public class MainFrame extends JFrame {
 
         gbc.gridy++;
         gbc.insets = new Insets(2, 0, 25, 0);
-        JLabel subTitle = new JLabel("JAVAngers |Point of Sale System", SwingConstants.CENTER);
+        JLabel subTitle = new JLabel("JAVAngers | Point of Sale System", SwingConstants.CENTER);
         subTitle.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         subTitle.setForeground(new Color(140, 140, 140));
         cardPanel.add(subTitle, gbc);
