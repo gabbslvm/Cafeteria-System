@@ -158,8 +158,8 @@ class MainMenuFrame extends JFrame {
     private static final Color GREEN_ONLINE = new Color(72, 199, 116);
 
     private static final int SIDEBAR_W = 280;
-    private static final int NAV_H = 56;
-    private static final int LOGO_SIZE = 240;
+    private static final int NAV_H = 42;
+    private static final int LOGO_SIZE = 200;
     private static final int AVATAR_SIZE = 44;
 
     private static final String LOGO_IMAGE_PATH = "/assets/Logo_official.png";
