@@ -247,6 +247,10 @@ class MainMenuFrame extends JFrame {
                 new MenuManagementFrame(currentStaff).setVisible(true);
                 dispose();
             }));
+            sidebar.add(navItem("Staff Management", drawStaffIcon(), () -> {
+        new StaffManagementFrame(currentStaff).setVisible(true);
+        dispose();
+    }));
         }
 
         sidebar.add(Box.createVerticalGlue());
@@ -661,6 +665,10 @@ class MainMenuFrame extends JFrame {
                 new MenuManagementFrame(currentStaff).setVisible(true);
                 dispose();
             }));
+            actions.add(pillButton("Staff Management", false, () -> {
+        new StaffManagementFrame(currentStaff).setVisible(true);
+        dispose();
+    }));
         }
 
         hero.add(actions, gbc);
@@ -668,7 +676,7 @@ class MainMenuFrame extends JFrame {
         gbc.gridy = 4;
         gbc.insets = new Insets(28, 0, 0, 0);
         String tipText = "manager".equalsIgnoreCase(currentStaff.getRole())
-                ? "💡  As manager, you can add, edit, and manage menu items and stock via Menu Management."
+                ? "💡  As manager, you can add, edit, and manage menu items, stock, and staff accounts via Menu Management."
                 : "💡  Use New Order to start a transaction. Track progress in Order List.";
         JLabel tip = new JLabel("<html>" + tipText + "</html>");
         tip.setFont(new Font("Segoe UI", Font.PLAIN, 12));
@@ -810,6 +818,13 @@ class MainMenuFrame extends JFrame {
             g.drawLine(4, 11, 8, 11);
         });
     }
+
+    private BufferedImage drawStaffIcon() {
+    return navIcon(g -> {
+        g.drawOval(4, 1, 8, 7);
+        g.drawArc(1, 10, 14, 8, 0, 180);
+    });
+}
 
     private BufferedImage drawLogoutIcon() {
         return navIcon(g -> {
