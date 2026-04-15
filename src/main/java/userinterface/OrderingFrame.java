@@ -58,10 +58,11 @@ public class OrderingFrame extends JFrame {
 
     private void initUI() {
         setTitle(AppConstants.APP_TITLE + " | New Order");
-        setSize(1120, 700);
+        setMinimumSize(new Dimension(1120, 700));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-        setResizable(false);
         JPanel root = new JPanel(new BorderLayout());
         root.setBackground(BG_DARK);
         root.add(header(), BorderLayout.NORTH);
@@ -622,10 +623,11 @@ class OrderList extends JFrame {
 
     private void initUI() {
         setTitle(AppConstants.APP_TITLE + " | Order List");
-        setSize(980, 580);
+        setMinimumSize(new Dimension(980, 580));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-        setResizable(false);
         JPanel root = new JPanel(new BorderLayout());
         root.setBackground(BG_DARK);
         root.add(header(), BorderLayout.NORTH);

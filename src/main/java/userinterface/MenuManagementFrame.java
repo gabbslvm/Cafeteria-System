@@ -12,15 +12,15 @@ import java.util.List;
 
 public class MenuManagementFrame extends JFrame {
 
-    private static final Color BG_DARK   = new Color(30, 30, 30),
-            BG_DARKER  = new Color(20, 20, 20),
-            BG_PANEL   = new Color(40, 40, 40),
-            ACCENT     = new Color(245, 196, 0),
-            TEXT_MAIN  = new Color(240, 240, 240),
+    private static final Color BG_DARK = new Color(30, 30, 30),
+            BG_DARKER = new Color(20, 20, 20),
+            BG_PANEL = new Color(40, 40, 40),
+            ACCENT = new Color(245, 196, 0),
+            TEXT_MAIN = new Color(240, 240, 240),
             TEXT_MUTED = new Color(150, 150, 150),
-            RED_BTN    = new Color(180, 60, 60),
-            GREEN_BTN  = new Color(50, 160, 80),
-            BLUE_BTN   = new Color(50, 120, 200);
+            RED_BTN = new Color(180, 60, 60),
+            GREEN_BTN = new Color(50, 160, 80),
+            BLUE_BTN = new Color(50, 120, 200);
 
     private final Staff currentStaff;
     private final MenuItemDB menuItemDB = new MenuItemDB();
@@ -43,10 +43,11 @@ public class MenuManagementFrame extends JFrame {
 
     private void initUI() {
         setTitle(AppConstants.APP_TITLE + " | Menu Management");
-        setSize(1050, 640);
+        setMinimumSize(new Dimension(1050, 640));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-        setResizable(false);
 
         JPanel root = new JPanel(new BorderLayout());
         root.setBackground(BG_DARK);
@@ -87,7 +88,9 @@ public class MenuManagementFrame extends JFrame {
 
         String[] cols = { "ID", "Name", "Category", "Price", "Stock", "Available" };
         tableModel = new DefaultTableModel(cols, 0) {
-            public boolean isCellEditable(int r, int c) { return false; }
+            public boolean isCellEditable(int r, int c) {
+                return false;
+            }
         };
         menuTable = new JTable(tableModel);
         styleTable(menuTable);
@@ -105,7 +108,8 @@ public class MenuManagementFrame extends JFrame {
         menuTable.getColumnModel().getColumn(5).setCellRenderer(new AvailableRenderer());
 
         menuTable.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) populateFormFromSelection();
+            if (!e.getValueIsAdjusting())
+                populateFormFromSelection();
         });
 
         JScrollPane scroll = new JScrollPane(menuTable);
@@ -151,7 +155,7 @@ public class MenuManagementFrame extends JFrame {
         p.add(Box.createVerticalStrut(10));
 
         p.add(formLabel("Category:"));
-        categoryCombo = new JComboBox<>(new String[]{ "Meal", "Snack", "Drink", "Combo", "Others" });
+        categoryCombo = new JComboBox<>(new String[] { "Meal", "Snack", "Drink", "Combo", "Others" });
         categoryCombo.setBackground(BG_PANEL);
         categoryCombo.setForeground(TEXT_MAIN);
         categoryCombo.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -267,7 +271,7 @@ public class MenuManagementFrame extends JFrame {
         menuItems = menuItemDB.getAllItems();
         tableModel.setRowCount(0);
         for (MenuItem mi : menuItems) {
-            tableModel.addRow(new Object[]{
+            tableModel.addRow(new Object[] {
                     mi.getMenuItemId(),
                     mi.getName(),
                     mi.getCategory(),
@@ -281,7 +285,8 @@ public class MenuManagementFrame extends JFrame {
 
     private void populateFormFromSelection() {
         int selected = menuTable.getSelectedRow();
-        if (selected < 0 || selected >= menuItems.size()) return;
+        if (selected < 0 || selected >= menuItems.size())
+            return;
         MenuItem mi = menuItems.get(selected);
         editingIndex = selected;
         nameField.setText(mi.getName());
@@ -301,23 +306,28 @@ public class MenuManagementFrame extends JFrame {
         boolean available = availableCheckBox.isSelected();
 
         if (name.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Item name cannot be empty.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Item name cannot be empty.", "Validation Error",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
         double price;
         try {
             price = Double.parseDouble(priceText);
-            if (price < 0) throw new NumberFormatException();
+            if (price < 0)
+                throw new NumberFormatException();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid price.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a valid price.", "Validation Error",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
         int stock;
         try {
             stock = Integer.parseInt(stockText);
-            if (stock < 0) throw new NumberFormatException();
+            if (stock < 0)
+                throw new NumberFormatException();
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Please enter a valid stock number.", "Validation Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please enter a valid stock number.", "Validation Error",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -382,9 +392,12 @@ public class MenuManagementFrame extends JFrame {
             setHorizontalAlignment(CENTER);
             try {
                 int stock = Integer.parseInt(v.toString());
-                if (stock <= 5)       setForeground(new Color(220, 80, 80));
-                else if (stock <= 20) setForeground(new Color(245, 196, 0));
-                else                  setForeground(new Color(100, 200, 100));
+                if (stock <= 5)
+                    setForeground(new Color(220, 80, 80));
+                else if (stock <= 20)
+                    setForeground(new Color(245, 196, 0));
+                else
+                    setForeground(new Color(100, 200, 100));
             } catch (NumberFormatException e) {
                 setForeground(TEXT_MAIN);
             }
