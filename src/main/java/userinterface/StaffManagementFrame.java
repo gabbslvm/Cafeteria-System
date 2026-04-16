@@ -134,11 +134,14 @@ public class StaffManagementFrame extends JFrame {
             }
             deleteStaff(staffList.get(row));
         });
+        JButton refresh = btn("Refresh", new Color(80, 80, 80));
+        refresh.addActionListener(e -> loadStaff());
 
         p.add(back);
         p.add(add);
         p.add(edit);
         p.add(delete);
+        p.add(refresh);
         return p;
     }
 
