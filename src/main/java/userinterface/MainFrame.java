@@ -24,7 +24,8 @@ public class MainFrame extends JFrame {
         setSize(640, 440);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
+        setMinimumSize(new Dimension(640, 440));
 
         JPanel backgroundPanel = new JPanel(new GridBagLayout());
         backgroundPanel.setBackground(new Color(22, 22, 22));
@@ -170,9 +171,10 @@ class MainMenuFrame extends JFrame {
 
         setTitle(AppConstants.APP_TITLE + " | Main Menu");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(1280, 750);
+        setMinimumSize(new Dimension(1280, 750));
+        setResizable(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-        setResizable(false);
 
         UIManager.put("OptionPane.background", BG_CARD);
         UIManager.put("Panel.background", BG_CARD);

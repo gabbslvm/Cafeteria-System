@@ -32,9 +32,9 @@ public class ReceiptFrame extends JDialog {
     }
 
     private void initUI() {
-        setSize(420, 620);
-        setLocationRelativeTo(getParent());
-        setResizable(false);
+        setMinimumSize(new Dimension(420, 620));
+setLocationRelativeTo(getParent());
+setResizable(true);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         JPanel root = new JPanel(new BorderLayout());

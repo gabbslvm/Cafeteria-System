@@ -34,10 +34,11 @@ public class TransacHistory extends JFrame {
 
     private void initUI() {
         setTitle(AppConstants.APP_TITLE + " — Transaction History");
-        setSize(960, 580);
+        setMinimumSize(new Dimension(960, 580));
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setResizable(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-        setResizable(false);
 
         JPanel root = new JPanel(new BorderLayout());
         root.setBackground(BG_DARK);
