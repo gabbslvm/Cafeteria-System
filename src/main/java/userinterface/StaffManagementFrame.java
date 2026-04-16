@@ -111,19 +111,22 @@ public class StaffManagementFrame extends JFrame {
 
         JButton edit = btn("Edit", BLUE_BTN);
         edit.addActionListener(e -> {
-            int row = staffTable.getSelectedRow();
-            if (row < 0) { warn("Select a staff member to edit."); return; }
-            openForm(staffList.get(row));
-        });
+        int row = staffTable.getSelectedRow();
+        if (row < 0) { warn("Select a staff member to edit."); return; }
+        openForm(staffList.get(row));
+    });
 
         JButton delete = btn("Delete", RED_BTN);
         delete.addActionListener(e -> {
-            int row = staffTable.getSelectedRow();
-            if (row < 0) { warn("Select a staff member to delete."); return; }
-            deleteStaff(staffList.get(row));
-        });
+        int row = staffTable.getSelectedRow();
+        if (row < 0) { warn("Select a staff member to delete."); return; }
+        deleteStaff(staffList.get(row));
+    });
 
-        p.add(back); p.add(add); p.add(edit); p.add(delete);
+        JButton refresh = btn("Refresh", new Color(80, 80, 80));
+        refresh.addActionListener(e -> loadStaff());
+
+        p.add(back); p.add(add); p.add(edit); p.add(delete); p.add(refresh);
         return p;
     }
 
@@ -228,7 +231,6 @@ public class StaffManagementFrame extends JFrame {
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
 
     private void addRow(JPanel form, GridBagConstraints g, int row, String label, JComponent field) {
         g.gridy = row; g.gridx = 0; g.weightx = 0.35;

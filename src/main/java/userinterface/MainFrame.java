@@ -33,8 +33,7 @@ public class MainFrame extends JFrame {
         cardPanel.setBackground(new Color(28, 28, 28));
         cardPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(40, 40, 40), 1),
-                BorderFactory.createEmptyBorder(30, 40, 30, 40)
-        ));
+                BorderFactory.createEmptyBorder(30, 40, 30, 40)));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -69,8 +68,7 @@ public class MainFrame extends JFrame {
         usernameField.setCaretColor(Color.WHITE);
         usernameField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(60, 60, 60)),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
         cardPanel.add(usernameField, gbc);
 
         gbc.gridy++;
@@ -89,8 +87,7 @@ public class MainFrame extends JFrame {
         passwordField.setCaretColor(Color.WHITE);
         passwordField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(60, 60, 60)),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)));
         cardPanel.add(passwordField, gbc);
 
         gbc.gridy++;
@@ -122,14 +119,14 @@ public class MainFrame extends JFrame {
     private void handleLogin() {
         String username = usernameField.getText().trim();
         String password = new String(passwordField.getPassword()).trim();
-        
+
         if (username.isEmpty() || password.isEmpty()) {
             statusLabel.setText("Please fill in all fields.");
             return;
         }
-        
+
         Staff loggedInStaff = staffDAO.authenticate(username, password);
-        
+
         if (loggedInStaff != null) {
             statusLabel.setText("");
             new MainMenuFrame(loggedInStaff).setVisible(true);
@@ -140,6 +137,7 @@ public class MainFrame extends JFrame {
         }
     }
 }
+
 class MainMenuFrame extends JFrame {
 
     private static final Color BG_SIDEBAR = new Color(10, 10, 10);
@@ -248,9 +246,9 @@ class MainMenuFrame extends JFrame {
                 dispose();
             }));
             sidebar.add(navItem("Staff Management", drawStaffIcon(), () -> {
-        new StaffManagementFrame(currentStaff).setVisible(true);
-        dispose();
-    }));
+                new StaffManagementFrame(currentStaff).setVisible(true);
+                dispose();
+            }));
         }
 
         sidebar.add(Box.createVerticalGlue());
@@ -666,9 +664,9 @@ class MainMenuFrame extends JFrame {
                 dispose();
             }));
             actions.add(pillButton("Staff Management", false, () -> {
-        new StaffManagementFrame(currentStaff).setVisible(true);
-        dispose();
-    }));
+                new StaffManagementFrame(currentStaff).setVisible(true);
+                dispose();
+            }));
         }
 
         hero.add(actions, gbc);
@@ -744,17 +742,33 @@ class MainMenuFrame extends JFrame {
     private BufferedImage buildAvatar(int size) {
         String letter = currentStaff.getFullName().trim().isEmpty() ? "?"
                 : String.valueOf(currentStaff.getFullName().trim().charAt(0)).toUpperCase();
+
         BufferedImage img = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = img.createGraphics();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setColor(YELLOW_MID);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+        g.setColor(new Color(245, 196, 0, 30));
         g.fillOval(0, 0, size, size);
+
+        java.awt.geom.Ellipse2D clip = new java.awt.geom.Ellipse2D.Float(1, 1, size - 2, size - 2);
+        g.setClip(clip);
+        g.setColor(YELLOW_MID);
+        g.fillOval(1, 1, size - 2, size - 2);
+
         g.setColor(YELLOW);
         g.setFont(new Font("Segoe UI", Font.BOLD, size / 2));
         FontMetrics fm = g.getFontMetrics();
         g.drawString(letter,
                 (size - fm.stringWidth(letter)) / 2,
                 (size - fm.getHeight()) / 2 + fm.getAscent());
+
+        g.setClip(null);
+        g.setColor(new Color(245, 196, 0, 80));
+        g.setStroke(new BasicStroke(1.5f));
+        g.drawOval(1, 1, size - 2, size - 2);
+
         g.dispose();
         return img;
     }
@@ -820,11 +834,11 @@ class MainMenuFrame extends JFrame {
     }
 
     private BufferedImage drawStaffIcon() {
-    return navIcon(g -> {
-        g.drawOval(4, 1, 8, 7);
-        g.drawArc(1, 10, 14, 8, 0, 180);
-    });
-}
+        return navIcon(g -> {
+            g.drawOval(4, 1, 8, 7);
+            g.drawArc(1, 10, 14, 8, 0, 180);
+        });
+    }
 
     private BufferedImage drawLogoutIcon() {
         return navIcon(g -> {
