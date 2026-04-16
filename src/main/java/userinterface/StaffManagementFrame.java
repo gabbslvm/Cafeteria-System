@@ -117,24 +117,6 @@ public class StaffManagementFrame extends JFrame {
 
         JButton edit = btn("Edit", BLUE_BTN);
         edit.addActionListener(e -> {
-<<<<<<< HEAD
-        int row = staffTable.getSelectedRow();
-        if (row < 0) { warn("Select a staff member to edit."); return; }
-        openForm(staffList.get(row));
-    });
-
-        JButton delete = btn("Delete", RED_BTN);
-        delete.addActionListener(e -> {
-        int row = staffTable.getSelectedRow();
-        if (row < 0) { warn("Select a staff member to delete."); return; }
-        deleteStaff(staffList.get(row));
-    });
-
-        JButton refresh = btn("Refresh", new Color(80, 80, 80));
-        refresh.addActionListener(e -> loadStaff());
-
-        p.add(back); p.add(add); p.add(edit); p.add(delete); p.add(refresh);
-=======
             int row = staffTable.getSelectedRow();
             if (row < 0) {
                 warn("Select a staff member to edit.");
@@ -157,7 +139,6 @@ public class StaffManagementFrame extends JFrame {
         p.add(add);
         p.add(edit);
         p.add(delete);
->>>>>>> f1ed51024596ec7c85112825fee83f85df48bbf9
         return p;
     }
 
@@ -269,6 +250,7 @@ public class StaffManagementFrame extends JFrame {
         }
     }
 
+    // ── Helpers ───────────────────────────────────────────────────────────────
 
     private void addRow(JPanel form, GridBagConstraints g, int row, String label, JComponent field) {
         g.gridy = row;
