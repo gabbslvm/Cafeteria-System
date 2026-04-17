@@ -253,8 +253,6 @@ public class StaffManagementFrame extends JFrame {
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────────
-
     private void addRow(JPanel form, GridBagConstraints g, int row, String label, JComponent field) {
         g.gridy = row;
         g.gridx = 0;
