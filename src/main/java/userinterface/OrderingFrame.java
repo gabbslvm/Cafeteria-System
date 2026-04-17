@@ -969,7 +969,7 @@ class OrderList extends JFrame {
         public Component getTableCellRendererComponent(JTable t, Object v, boolean sel, boolean foc, int r, int c) {
             String status = t.getValueAt(r, 6) != null ? t.getValueAt(r, 6).toString() : "";
             boolean canVoid = STATUS_PENDING.equalsIgnoreCase(status) || STATUS_PREPARING.equalsIgnoreCase(status);
-            setText(canVoid ? "✕ Void" : "");
+            setText(canVoid ? "Void" : "");
             setBackground(canVoid ? RED_BTN : BG_PANEL);
             setForeground(canVoid ? Color.WHITE : BG_PANEL);
             setBorderPainted(canVoid);
