@@ -74,9 +74,9 @@ mvn exec:java
 ## Purpose
 
 Developed as the final project for Computer Programming 2 (Java) course, this system demonstrates:
-- Full-stack desktop application development
+- Desktop application development
 - Database design and integration
-- OOP principles and design patterns
+- Application of OOP principles
 - GUI development with Swing/JFrame
 - Maven project management
 
